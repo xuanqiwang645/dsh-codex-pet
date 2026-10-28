@@ -1,5 +1,5 @@
 {
-  "version": "0.4.2-codex.1",
+  "version": "0.4.3-codex.1",
   "upstreamCommit": "2b72c1bd246e851c5e1b4890db834aba3452af43",
   "installedApp": "~/Applications/DSH Codex Pet.app",
   "signatureVerified": true,
@@ -10,35 +10,63 @@
   },
   "nativePetPreserved": true,
   "targetedTests": {
-    "passed": 237,
+    "passed": 257,
     "failed": 0
   },
   "typescriptSourceCheck": "pass",
   "typescriptTestsCheck": "pass",
   "liveChecks": {
-    "version": "0.4.2-codex.1",
-    "modelPickerUiSavedAndEffective": true,
-    "catalogModels": 8,
-    "alternateModelVerified": "gpt-6-luna",
-    "visibleReply": "对话已恢复",
-    "conversationRemainedOpen": true,
-    "recentHistoryLoaded": true,
-    "originalPreferencesRestored": true,
-    "syntheticTestTurnRemoved": true,
+    "activeCharacter": "chatgpt-dragon",
+    "onlySelectedCharacterVisible": true,
+    "independentCharacterSelectionApplied": true,
+    "fixedPositionDisabled": true,
+    "automaticWalkingObservedWithoutCommands": true,
+    "automaticWalkingSamples": 8,
+    "namedWalkingMovesLeftAtConstantHeight": true,
+    "walkingPlaybackEnded": true,
+    "elegantMenuCurtsyPlayedVisibly": true,
+    "elegantPlaybackEnded": [
+      "白龙提裙轻礼",
+      "白龙从容抿茶",
+      "白龙静心阅卷"
+    ],
+    "conversationIdentityAndModelButtonVisible": true,
+    "conversationClosedAfterCheck": true,
     "existingDataPreserved": {
-      "main-config.jsonc": true,
+      "mainSettingsExceptSelectedDisplay": true,
       "memory.json": true,
       "codex-settings.json": true
-    }
+    },
+    "installedReferencedMediaMatchesBuild": true,
+    "referencedAnimations": 11
   },
-  "alternateModelRequest": {
-    "selectedModel": "gpt-6-luna",
-    "requestedModel": "gpt-6-luna",
-    "reply": "模型已切换",
-    "completed": true
+  "characterMedia": {
+    "source": "built-in image_gen",
+    "sourcePoseCount": 84,
+    "transparentVideos": 16,
+    "canvas": [
+      640,
+      360
+    ],
+    "walkingSourceFrames": 8,
+    "walkingCycleSeconds": 1,
+    "elegantActions": [
+      "提裙轻礼",
+      "拂发整袖",
+      "从容抿茶",
+      "静心阅卷",
+      "舒翼摆尾",
+      "优雅颔首",
+      "悬空轻扶"
+    ]
   },
-  "payloadSha256": "57b10282b4779f178baefe9a9d4db5eb0389359869d3e2f2bfd1baa7d1d14f43",
+  "payloadSha256": "dfdd46e0336894a1b6f4f793585ea247ff95ddfbe3729710cd81e872746144bb",
   "chatInput": "text-only",
   "dataLocation": "~/Library/Application Support/DSH Codex Pet/data",
-  "transport": "local official codex app-server using existing ChatGPT login"
+  "transport": "local official codex app-server using existing ChatGPT login",
+  "modelAndChatRegressionBaseline": "codex-v0.4.2; current regression suite passed; original model settings hash unchanged",
+  "privacy": {
+    "noUserDataFilesInPayload": true,
+    "noUserPathsInCompiledBundle": true
+  }
 }

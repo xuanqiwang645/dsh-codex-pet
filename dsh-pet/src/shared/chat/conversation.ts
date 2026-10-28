@@ -3,6 +3,8 @@ import { ROUTE_PATH } from '../constants.ts';
 import type { ChatDialogMount, ChatDialogOptions } from './dialog.ts';
 
 export interface ConversationDialogOptions extends ChatDialogOptions {
+  /** Display identity for the selected character; legacy callers keep the whale name. */
+  petName?: string;
   onSettings?: () => void;
 }
 
@@ -13,6 +15,7 @@ const CSS = `
 
 /** Keep replies and recent history visible until the user explicitly closes the panel. */
 export function mountConversationDialog(opts: ConversationDialogOptions): ChatDialogMount {
+  const petName = typeof opts.petName === 'string' && opts.petName.trim() ? opts.petName.trim() : '鲸鱼娘';
   const element = <K extends keyof HTMLElementTagNameMap>(tag: K, text?: string): HTMLElementTagNameMap[K] => {
     const node = document.createElement(tag);
     if (text !== undefined) node.textContent = text;
@@ -21,10 +24,10 @@ export function mountConversationDialog(opts: ConversationDialogOptions): ChatDi
   const root = element('div');
   root.className = 'dsh-pet-chat dsh-pet-conversation';
   root.setAttribute('role', 'dialog');
-  root.setAttribute('aria-label', '鲸鱼娘对话');
+  root.setAttribute('aria-label', petName + '对话');
   const style = element('style', CSS);
   const header = element('header');
-  header.append(element('strong', '鲸鱼娘 · 对话'));
+  header.append(element('strong', petName + ' · 对话'));
   if (opts.onSettings) {
     const settings = element('button', '选择模型');
     settings.type = 'button';
@@ -38,7 +41,7 @@ export function mountConversationDialog(opts: ConversationDialogOptions): ChatDi
   const log = element('div');
   log.className = 'dsh-pet-conversation-log';
   log.setAttribute('role', 'log');
-  log.setAttribute('aria-label', '对话记录');
+  log.setAttribute('aria-label', petName + '对话记录');
   log.setAttribute('aria-live', 'polite');
   const status = element('div', '正在读取最近对话…');
   status.className = 'dsh-pet-conversation-status';
@@ -86,7 +89,7 @@ export function mountConversationDialog(opts: ConversationDialogOptions): ChatDi
     const row = element('div');
     row.className = 'dsh-pet-conversation-message';
     row.dataset.role = role;
-    row.append(element('b', role === 'user' ? '你' : '鲸鱼娘'), element('p', text));
+    row.append(element('b', role === 'user' ? '你' : petName), element('p', text));
     log.append(row);
     log.scrollTop = log.scrollHeight;
     return row;
@@ -125,7 +128,7 @@ export function mountConversationDialog(opts: ConversationDialogOptions): ChatDi
         if ((message.role === 'user' || message.role === 'assistant') && typeof message.content === 'string')
           addMessage(message.role, message.content);
       }
-      setStatus(messages.length ? '最近对话已载入。' : '发一句消息，鲸鱼娘会在这里回复。');
+      setStatus(messages.length ? '最近对话已载入。' : '发一句消息，' + petName + '会在这里回复。');
     })
     .catch(() => {
       if (!closed && !interacted) setStatus('最近记录暂时无法读取，仍可发送新消息。', true);
@@ -146,7 +149,7 @@ export function mountConversationDialog(opts: ConversationDialogOptions): ChatDi
     sending = true;
     input.disabled = true;
     send.disabled = true;
-    setStatus('鲸鱼娘正在回复…');
+    setStatus(petName + '正在回复…');
     const pending = addMessage('user', text);
     const controller = new AbortController();
     sendingAbort = controller;

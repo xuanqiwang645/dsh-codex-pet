@@ -28,13 +28,13 @@ def main():
     package.mkdir(exist_ok=True)
     for folder in ['lib','runtime']:
         shutil.copytree(source/folder,package/folder,dirs_exist_ok=True)
-    for folder in ['webm','fonts','pic','memes','sound']:
+    for folder in ['webm','fonts','pic','memes','sound','pet-packs']:
         if (source/'assets'/folder).is_dir():
             shutil.copytree(source/'assets'/folder,package/'assets'/folder,dirs_exist_ok=True)
     for name in ['config.jsonc','logo.png']:
         shutil.copy2(source/'assets'/name,package/'assets'/name)
     metadata=json.loads((source/'package.json').read_text())
-    metadata.update(name='dsh-codex-companion',version='0.4.2-codex.1',main='lib/app.js',
+    metadata.update(name='dsh-codex-companion',version='0.4.3-codex.1',main='lib/app.js',
         productName='DSH Codex Pet',description='鲸鱼娘 Codex 桌面交互版')
     (package/'package.json').write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n')
     for name in ['ATTRIBUTION.md','LICENSE.code','README.md']:
@@ -42,7 +42,7 @@ def main():
     info_path=app/'Contents/Info.plist'
     info=plistlib.loads(info_path.read_bytes())
     info.update(CFBundleIdentifier=APP_ID,CFBundleDisplayName='DSH Codex Pet',CFBundleName='DSH Codex Pet',
-        CFBundleShortVersionString='0.4.2',CFBundleVersion='3',LSUIElement=True,
+        CFBundleShortVersionString='0.4.3',CFBundleVersion='4',LSUIElement=True,
         NSHighResolutionCapable=True,CFBundleIconFile='pet.icns')
     # Preserve the existing Electron executable and framework identities.
     info_path.write_bytes(plistlib.dumps(info))
@@ -58,7 +58,7 @@ def main():
     payload=args.output.resolve()/'DSH Codex Pet.app.zip'
     subprocess.run(['/usr/bin/ditto','-c','-k','--keepParent','--norsrc',str(app),str(payload)],check=True)
     # The ZIP retains the clean signature while living in a synced folder.
-    print(json.dumps({'payload':str(payload),'staged_app':str(app),'bundleId':APP_ID,'version':'0.4.2-codex.1'},ensure_ascii=False))
+    print(json.dumps({'payload':str(payload),'staged_app':str(app),'bundleId':APP_ID,'version':'0.4.3-codex.1'},ensure_ascii=False))
 
 if __name__=='__main__':
     main()

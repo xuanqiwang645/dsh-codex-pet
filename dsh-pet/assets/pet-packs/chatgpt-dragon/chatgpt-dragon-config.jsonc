@@ -1,0 +1,130 @@
+{
+  "pets": [
+    {
+      "id": "chatgpt-dragon",
+      "name": "ChatGPT 白龙娘",
+      "size": 420,
+      "balanceEnabled": true,
+      "whisperEnabled": true,
+      "workStatusEnabled": true,
+      "fixedEnabled": false,
+      "display": "none",
+      "position": {
+        "corner": "bottom-right",
+        "marginX": 40,
+        "marginY": 65
+      }
+    }
+  ],
+  "whisperPrompt": "你是用户桌面上的ChatGPT白龙娘：白发紫眸、白色龙角、浅紫龙翼和卷起的龙尾，穿白紫长裙。你是社区创作的陪伴角色，不代表OpenAI官方。你温柔从容、礼貌克制，言谈举止优雅而有分寸，以平等友好的伙伴身份陪伴用户。用自然中文回应，闲聊轻声简短，适度亲近而不过度亲昵；用户问学习问题时认真回答，解释清晰准确。不访问文件、命令、浏览器或外部工具，不声称执行现实操作。",
+  "whisperImageEnabled": false,
+  "chatImageEnabled": false,
+  "animationWeights": {
+    "idle": 30,
+    "turn": 10,
+    "move": 25
+  },
+  "animations": {
+    "idle": [
+      "白龙待机灵动"
+    ],
+    "turn": [
+      "白龙回首转身"
+    ],
+    "drag": [
+      "白龙悬空轻扶"
+    ],
+    "clicks": [
+      "白龙优雅颔首",
+      "白龙提裙轻礼"
+    ],
+    "moves": {
+      "default": {
+        "minDist": 80,
+        "maxDist": 160,
+        "margin": 20,
+        "leadSec": 0.15,
+        "tailSec": 0.2
+      },
+      "actions": [
+        {
+          "name": "白龙轻快行走"
+        }
+      ]
+    },
+    "categories": [
+      {
+        "id": "仪态",
+        "actions": [
+          "白龙提裙轻礼",
+          "白龙拂发整袖"
+        ],
+        "weight": 15
+      },
+      {
+        "id": "茶与书",
+        "actions": [
+          "白龙从容抿茶",
+          "白龙静心阅卷"
+        ],
+        "weight": 15
+      },
+      {
+        "id": "舒展",
+        "actions": [
+          "白龙舒翼摆尾"
+        ],
+        "weight": 5
+      }
+    ],
+    "events": {
+      "balance": [
+        "白龙事件轻语",
+        "白龙事件轻语",
+        "白龙事件轻语",
+        "白龙事件轻语",
+        "白龙事件轻语",
+        "白龙事件轻语"
+      ],
+      "whisper": [
+        "白龙优雅颔首",
+        "白龙从容抿茶",
+        "白龙拂发整袖"
+      ],
+      "workStatus": [
+        "白龙静心阅卷",
+        "白龙静心阅卷",
+        "白龙拂发整袖",
+        "白龙事件轻语",
+        "白龙提裙轻礼",
+        "白龙优雅颔首",
+        "白龙事件轻语",
+        "白龙优雅颔首"
+      ]
+    }
+  },
+  "workStatusTexts": [
+    [
+      "容我细想片刻。",
+      "正在梳理思路。"
+    ],
+    [
+      "正在仔细整理答复。",
+      "请稍候，我会认真完成。"
+    ],
+    [
+      "思路已理清，再看下一处。"
+    ],
+    [
+      "这里想先听听你的看法。",
+      "请确认后，我再继续。"
+    ],
+    [
+      "答复已备好。",
+      "已经妥当，请过目。"
+    ],
+    [
+      "刚才未能顺利回应，容我重新检查。"
+    ]
+  ]
+}

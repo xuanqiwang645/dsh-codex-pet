@@ -12,6 +12,7 @@ import { failureBody } from '../routes/result.ts';
 import { createPetRouter } from '../routes/index.ts';
 import type { PetRouteDeps } from '../routes/types.ts';
 import type { HostContext } from './context.ts';
+import { runConfigOperation } from '../config/queue.ts';
 
 /** 单次业务请求的处理函数：URL 已解析、方法已归一。 */
 export type HttpRouteHandler = (
@@ -29,7 +30,6 @@ export type HttpRouteHandler = (
 export function createHttpRoute(deps: PetRouteDeps): { handlePetRoute: HttpRouteHandler } {
   // 配置请求覆盖完整读改写：下一次更新必须读取前一次完成后的配置。
   // GET /config 同样排队，避免写入尚未完成时读到空文件而回退内置默认。
-  let configQueue: Promise<void> = Promise.resolve();
 
   /** 单次业务路由（HTTP 落盘与桌面 Helper 管道共用同一份实现）：输入 rawUrl + method + body 文本，
    *  返回 RouteResult，消费方各自落盘——业务逻辑只有一份，两端天然一致。
@@ -48,12 +48,7 @@ export function createHttpRoute(deps: PetRouteDeps): { handlePetRoute: HttpRoute
     // GET /config 同样排队，避免写入尚未完成时读到空文件而回退内置默认。
     const isConfigQueue = rest === 'config' || ((rest === 'pet-display' || rest === 'pet-config') && method === 'POST');
     if (isConfigQueue) {
-      const pending = configQueue.then(run, run);
-      configQueue = pending.then(
-        () => undefined,
-        () => undefined,
-      );
-      return pending;
+      return runConfigOperation(deps.configPaths, run);
     }
     return run();
   };

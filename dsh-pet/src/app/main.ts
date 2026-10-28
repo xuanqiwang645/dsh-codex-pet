@@ -18,6 +18,7 @@ import { createFileLogger, setDefaultLogger } from '../host/log-file.ts';
 import { createCodexAi } from '../codex/index.ts';
 import { registerCodexBalance, createCodexQuotaRoute } from '../companion/balance.ts';
 import { createCodexModelsRoute } from '../companion/models.ts';
+import { createCompanionPetsRoute } from '../companion/pets.ts';
 import { codexSettingsAssets } from '../companion/settings-page.ts';
 import { configureCompanion } from './companion-bootstrap.ts';
 import { writeStandaloneRuntime } from '../standalone/runtime-state.ts';
@@ -72,6 +73,8 @@ const locked = app.requestSingleInstanceLock();
 if (!locked) {
   app.exit(0);
 } else {
+  // Copy bundled characters only in the winning instance, before its first config read.
+  configureCompanion(app, packageRoot);
   await boot();
 }
 
@@ -143,22 +146,50 @@ async function boot(): Promise<void> {
     routes,
     ai,
     authenticatedUrl: security.authenticatedUrl,
-    shutdown: () => { setTimeout(() => app.quit(), 150); },
-    events: { on(name, listener) { activity.on(name, listener); return () => { activity.off(name, listener); }; } },
+    shutdown: () => {
+      setTimeout(() => app.quit(), 150);
+    },
+    events: {
+      on(name, listener) {
+        activity.on(name, listener);
+        return () => {
+          activity.off(name, listener);
+        };
+      },
+    },
   });
   let restartScheduled = false;
-  context.ctx.restartDesktopApp = () => {
+  const restartCompanion = (): void => {
     if (restartScheduled) return;
     restartScheduled = true;
-    setTimeout(() => { app.relaunch(); app.quit(); }, 300);
+    setTimeout(() => {
+      app.relaunch();
+      app.quit();
+    }, 300);
   };
+  context.ctx.restartDesktopApp = restartCompanion;
+  routes.push(
+    createCompanionPetsRoute({
+      configPaths: configPathsFor(packageRoot, dshHomeDir()),
+      restart: restartCompanion,
+    }),
+  );
 
-  const server = await startRouter(routes, { security, ai, log, status, landingPage, settingsAssets: codexSettingsAssets });
+  const server = await startRouter(routes, {
+    security,
+    ai,
+    log,
+    status,
+    landingPage,
+    settingsAssets: codexSettingsAssets,
+  });
   port = server.port;
   const origin = `http://127.0.0.1:${port}`;
   const releaseRuntime = writeStandaloneRuntime(dshHomeDir(), {
-    port, token: security.token,
-    settingsUrl: security.authenticatedUrl(origin), pluginRoot: packageRoot,
+    port,
+    token: security.token,
+    settingsUrl: security.authenticatedUrl(origin),
+    pluginRoot: packageRoot,
   });
   log(`本机服务 ${origin}`);
 

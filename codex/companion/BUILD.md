@@ -16,3 +16,7 @@ python3 build-app.py --source /路径/原仓库/dsh-pet --electron /路径/Elect
 构建代码不读取或复制登录凭据。运行时只调用本机官方 `codex app-server`，使用现有 ChatGPT 登录；设置页不收集 API 密钥。后台自动碎碎念默认关闭。应用数据和 Chromium 配置位于个人 Application Support 下独立的 `DSH Codex Pet` 目录。
 
 `source-overlay.zip` 包含适配源码、定向测试和共享运行时构建脚本，不包含原仓库素材副本、依赖缓存或用户数据。完整动画随已构建的应用包提供；重新构建时取自上游固定提交。
+
+## 白龙娘动画素材
+
+新增角色素材在 `dsh-pet/assets/pet-packs/chatgpt-dragon/`，透明原图、连续动作帧表和生成提示词均保留。重建其视频时运行 `node scripts/build-character-media.mjs /路径/ffmpeg`；需要支持 libvpx-vp9 和透明 Alpha 的 FFmpeg。该脚本只提取已生成的帧并编码为 640×360 VP9-alpha 视频，不使用 API 或修改绘画内容。连续步态按 1 秒一周期循环，桌面实际位移仍由原有运动驱动负责。

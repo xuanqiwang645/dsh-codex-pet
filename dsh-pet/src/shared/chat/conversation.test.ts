@@ -78,6 +78,7 @@ async function harness(
     close(): void;
     closes(): number;
   }) => Promise<void>,
+  petName?: string,
 ) {
   const globals = globalThis as unknown as Record<string, unknown>;
   const saved = new Map(['document', 'window', 'fetch'].map((name) => [name, globals[name]]));
@@ -89,6 +90,7 @@ async function harness(
   let closed = 0;
   const mount = mountConversationDialog({
     petId: 'main',
+    petName,
     surface: 'desktop',
     x: 590,
     y: 590,
@@ -130,6 +132,8 @@ test('persistent conversation loads history safely, stays inside clamp and only 
       await tick();
       assert.match(root.allText, /<img src=x onerror=alert\(1\)>/);
       assert.match(root.allText, /在这里/);
+      assert.equal(root.attributes.get('aria-label'), '鲸鱼娘对话');
+      assert.match(root.allText, /鲸鱼娘 · 对话/);
       assert.equal(root.find('img').length, 0);
       assert.equal(root.style.left, '156px');
       assert.equal(root.style.top, '106px');
@@ -145,6 +149,30 @@ test('persistent conversation loads history safely, stays inside clamp and only 
       doc.dispatchEvent(key('Escape'));
       assert.equal(closes(), 1);
     },
+  );
+});
+
+test('selected character identity appears in the dialog, history and reply states as safe text', async () => {
+  const reply = deferred<unknown>();
+  const name = 'ChatGPT 白龙娘 <img src=x>';
+  await harness(
+    (_url, init) => (init.method === 'POST' ? reply.promise : { ok: true, messages: [] }),
+    async ({ root, input, form }) => {
+      await tick();
+      assert.equal(root.attributes.get('aria-label'), name + '对话');
+      assert.match(root.allText, /ChatGPT 白龙娘 <img src=x> · 对话/);
+      assert.match(root.allText, /发一句消息，ChatGPT 白龙娘 <img src=x>会在这里回复。/);
+      assert.doesNotMatch(root.allText, /鲸鱼娘/);
+      input.value = '你好';
+      form.dispatchEvent(new Event('submit', { cancelable: true }));
+      assert.match(root.allText, /ChatGPT 白龙娘 <img src=x>正在回复/);
+      reply.resolve({ ok: true, text: '白龙娘在这里。' });
+      await tick();
+      assert.ok(root.find('b').some((node) => node.textContent === name));
+      assert.equal(root.find('img').length, 0);
+      assert.doesNotMatch(root.allText, /鲸鱼娘/);
+    },
+    name,
   );
 });
 
@@ -248,10 +276,10 @@ test('desktop runtime opens persistent Codex conversation while DSH retains quic
   for (const target of ['codex', 'desktop', 'standalone', 'web']) {
     let mode = '';
     let settings = 0;
-    let options: { allowImages?: boolean; onSettings?: () => void } = {};
+    let options: { allowImages?: boolean; petName?: string; onSettings?: () => void } = {};
     class Sprite {
       chatClose = null;
-      pet = { id: 'main' };
+      pet = { id: 'chatgpt-dragon', name: 'ChatGPT 白龙娘' };
       hit = { getBoundingClientRect: () => ({ right: 30, top: 20 }) };
       syncInputBusy() {}
       setInteractive() {}
@@ -281,6 +309,7 @@ test('desktop runtime opens persistent Codex conversation while DSH retains quic
     (new Sprite() as Sprite & { showChatFromMenu(): void }).showChatFromMenu();
     assert.equal(mode, target === 'codex' ? 'persistent' : 'quick');
     assert.equal(options.allowImages, target !== 'codex');
+    assert.equal(options.petName, target === 'codex' ? 'ChatGPT 白龙娘' : undefined);
     options.onSettings?.();
     assert.equal(settings, target === 'codex' ? 1 : 0);
   }

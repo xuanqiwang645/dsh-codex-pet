@@ -197,7 +197,9 @@ Object.assign(PetSprite.prototype, {
       allowImages: OPEN_TARGET !== 'codex',
       baseUrl: BASE + '/chat',
       surface: 'desktop',
-      ...(OPEN_TARGET === 'codex' ? { onSettings: () => window.petBridge?.openSettings?.() } : {}),
+      ...(OPEN_TARGET === 'codex'
+        ? { petName: this.pet.name, onSettings: () => window.petBridge?.openSettings?.() }
+        : {}),
       x: Math.max(4, this.hit.getBoundingClientRect().right + 6),
       y: Math.max(4, this.hit.getBoundingClientRect().top + 6),
       // 拖拽落到宠物身上时直接带着图开弹窗

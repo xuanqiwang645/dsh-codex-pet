@@ -105,6 +105,12 @@ export function registerLoops(deps: LoopsInput): void {
           const found = findPetInstance(cfg, petId);
           if (!found) continue;
           checked += 1;
+          // The companion selects one desktop character. Hidden characters must not
+          // consume its shared chat connection before the visible character can reply.
+          if (process.env.DSH_PET_COMPANION === '1' && pet.display !== 'desktop' && pet.display !== 'both') {
+            skipped.push(petId + ': 未在桌面显示');
+            continue;
+          }
           const schedule = automaticWhisperSchedule(
             standaloneAiPolicy(),
             pet.whisperEnabled === true,

@@ -10,6 +10,10 @@ test('Codex settings has no credential or endpoint inputs and renders dynamic va
   assert.ok(!codexSettingsPage.includes('id="apiKey"'));
   assert.ok(!codexSettingsPage.includes('id="baseUrl"'));
   assert.match(codexSettingsPage, /沿用本机 Codex 登录/);
+  assert.match(codexSettingsPage, /DSH · Codex 桌宠设置/);
+  assert.match(codexSettingsPage, /桌面宠物 \/ CODEX COMPANION/);
+  assert.match(codexSettingsPage, /右键宠物可打开/);
+  assert.doesNotMatch(codexSettingsPage, /鲸鱼娘/);
   assert.match(codexSettingsScript, /textContent/);
   assert.ok(!codexSettingsScript.includes('innerHTML'));
   assert.match(codexSettingsPage, /min="300"/);
@@ -145,6 +149,7 @@ test('appearance save re-reads current pets and preserves every unrelated pet fi
     id: 'main',
     name: '鲸鱼娘',
     size: 462,
+    display: 'desktop',
     fixedEnabled: false,
     position: { corner: 'top-right', marginX: 10, marginY: 20 },
   };
@@ -171,6 +176,150 @@ test('appearance save re-reads current pets and preserves every unrelated pet fi
   assert.deepEqual(written?.pets[0].position, oldPet.position);
   assert.deepEqual(written?.pets[1], currentOther);
   assert.match(get('pet-status').textContent, /重启桌宠后生效/);
+});
+
+test('character picker includes every entry and initially selects the currently displayed character', async () => {
+  const main = { id: 'main', name: '鲸鱼娘', size: 420, display: 'none' };
+  const dragon = { id: 'chatgpt-dragon', name: 'ChatGPT 白龙娘', size: 380, display: 'desktop', fixedEnabled: true };
+  const get = await runPage((path) => {
+    if (path === '/companion/models') return modelCatalog();
+    if (path === '/companion/quota') return { ok: true, buckets: [] };
+    if (path === '/dsh-pet-7340/config') return { main: { pets: [main] }, 'chatgpt-dragon': { pets: [dragon] } };
+    return settings;
+  });
+  assert.deepEqual(
+    get('pet-select').children.map((item) => item.value),
+    ['main', 'chatgpt-dragon'],
+  );
+  assert.equal(get('pet-select').value, 'chatgpt-dragon');
+  assert.equal(get('pet-size').value, '380');
+  assert.equal(get('pet-fixed').checked, true);
+  assert.match(get('pet-current').textContent, /当前显示：ChatGPT 白龙娘/);
+  assert.equal(get('pet-apply').disabled, true, 'the sole current character needs no redundant restart');
+  get('pet-select').value = 'main';
+  await get('pet-select').listeners.change(event);
+  assert.equal(get('pet-size').value, '420');
+  assert.equal(get('pet-apply').disabled, false);
+});
+
+test('pack appearance writes only its entry with a fresh full pet list and leaves main unchanged', async () => {
+  let reads = 0;
+  const writes: Array<{ path: string; method: string; body: Record<string, unknown> }> = [];
+  const main = { id: 'main', name: '鲸鱼娘', size: 420, display: 'desktop' };
+  const dragon = {
+    id: 'chatgpt-dragon',
+    name: 'ChatGPT 白龙娘',
+    size: 380,
+    display: 'none',
+    fixedEnabled: false,
+    position: { corner: 'bottom-left', marginX: 20, marginY: 30 },
+    balanceEnabled: true,
+  };
+  const sibling = { id: 'dragon-friend', name: '另一只龙', size: 300, display: 'none', fixedEnabled: false };
+  const get = await runPage((path, options) => {
+    if (path === '/companion/models') return modelCatalog();
+    if (path === '/companion/quota') return { ok: true, buckets: [] };
+    if (path === '/dsh-pet-7340/config') {
+      assert.equal(options.method, 'GET', 'pack changes must not PUT the main entry');
+      reads++;
+      return {
+        main: { pets: [main] },
+        'chatgpt-dragon': { pets: [dragon, { ...sibling, name: reads > 1 ? '刚修改的名字' : sibling.name }] },
+      };
+    }
+    if (path === '/dsh-pet-7340/pet-config') {
+      const body = JSON.parse(options.body!);
+      writes.push({ path, method: options.method, body });
+      return { main: { pets: [main] }, 'chatgpt-dragon': { pets: body.pets } };
+    }
+    return settings;
+  });
+  get('pet-select').value = 'chatgpt-dragon';
+  await get('pet-select').listeners.change(event);
+  get('pet-size').value = '500';
+  get('pet-fixed').checked = true;
+  await get('pet-settings').listeners.submit(event);
+  assert.equal(reads, 2);
+  assert.equal(writes.length, 1);
+  assert.equal(writes[0].method, 'POST');
+  assert.equal(writes[0].body.entry, 'chatgpt-dragon');
+  const pets = writes[0].body.pets as Array<Record<string, unknown>>;
+  assert.equal(pets[0].size, 500);
+  assert.equal(pets[0].fixedEnabled, true);
+  assert.equal(pets[0].display, 'none', 'appearance save must not switch visibility');
+  assert.deepEqual(pets[0].position, dragon.position);
+  assert.equal(pets[1].name, '刚修改的名字');
+  assert.equal(main.size, 420);
+  assert.equal(get('pet-select').value, 'chatgpt-dragon', 'editing selection survives the refreshed config');
+});
+
+test('applying a character sends one selection request and disables stale settings after restart', async () => {
+  const writes: Array<{ path: string; body: unknown }> = [];
+  const get = await runPage((path, options) => {
+    if (path === '/companion/models') return modelCatalog();
+    if (path === '/companion/quota') return { ok: true, buckets: [] };
+    if (path === '/dsh-pet-7340/config')
+      return {
+        main: { pets: [{ id: 'main', name: '鲸鱼娘', size: 420, display: 'desktop' }] },
+        'chatgpt-dragon': { pets: [{ id: 'chatgpt-dragon', name: 'ChatGPT 白龙娘', size: 420, display: 'none' }] },
+      };
+    if (options.method === 'POST') {
+      writes.push({ path, body: JSON.parse(options.body!) });
+      return { ok: true, selectedId: 'chatgpt-dragon' };
+    }
+    return settings;
+  });
+  get('pet-select').value = 'chatgpt-dragon';
+  await get('pet-select').listeners.change(event);
+  assert.equal(writes.length, 0, 'choosing an option must not silently switch pets');
+  await get('pet-apply').listeners.click(event);
+  assert.deepEqual(writes, [{ path: '/companion/pets/select', body: { id: 'chatgpt-dragon' } }]);
+  assert.match(get('pet-status').textContent, /已切换为ChatGPT 白龙娘.*正在重新启动.*重新打开设置/);
+  for (const id of [
+    'pet-select',
+    'pet-apply',
+    'pet-save',
+    'pet-size',
+    'pet-fixed',
+    'save',
+    'model',
+    'check',
+    'enabled',
+  ])
+    assert.equal(get(id).disabled, true, id);
+  await get('pet-apply').listeners.click(event);
+  await get('pet-settings').listeners.submit(event);
+  await get('settings').listeners.submit(event);
+  assert.equal(writes.length, 1, 'stale credentials must not be reused after the restart');
+});
+
+test('character selection failure remains visible and can be retried', async () => {
+  let attempts = 0;
+  const get = await runPage((path) => {
+    if (path === '/companion/models') return modelCatalog();
+    if (path === '/companion/quota') return { ok: true, buckets: [] };
+    if (path === '/dsh-pet-7340/config')
+      return {
+        main: { pets: [{ id: 'main', name: '鲸鱼娘', size: 420, display: 'desktop' }] },
+        'chatgpt-dragon': { pets: [{ id: 'chatgpt-dragon', name: 'ChatGPT 白龙娘', size: 420, display: 'none' }] },
+      };
+    if (path === '/companion/pets/select') {
+      attempts++;
+      return attempts === 1
+        ? { ok: false, message: '暂时不能切换，请重试。' }
+        : { ok: true, selectedId: 'chatgpt-dragon' };
+    }
+    return settings;
+  });
+  get('pet-select').value = 'chatgpt-dragon';
+  await get('pet-select').listeners.change(event);
+  await get('pet-apply').listeners.click(event);
+  assert.match(get('pet-status').textContent, /切换失败.*请重试/);
+  assert.equal(get('pet-apply').disabled, false);
+  assert.equal(get('pet-select').value, 'chatgpt-dragon');
+  await get('pet-apply').listeners.click(event);
+  assert.equal(attempts, 2);
+  assert.match(get('pet-status').textContent, /已切换/);
 });
 
 test('model picker lists discovered models, saves a nondefault choice, and can return to follow-default', async () => {
@@ -319,7 +468,7 @@ test('custom settings assets and quota use the existing authenticated request bo
     assert.equal(calls, 0);
     const page = await fetch(base + '/standalone-ai/', { headers });
     assert.equal(page.status, 200);
-    assert.match(await page.text(), /鲸鱼娘 · 桌宠设置/);
+    assert.match(await page.text(), /DSH · Codex 桌宠设置/);
     const script = await fetch(base + '/standalone-ai/settings.js', { headers });
     assert.match(await script.text(), /companion\/quota/);
     const quota = await fetch(base + '/companion/quota', { headers });

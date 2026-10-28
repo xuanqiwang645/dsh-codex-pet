@@ -1,0 +1,7 @@
+{
+  "id": "chatgpt-dragon",
+  "name": "ChatGPT 白龙娘",
+  "config": "chatgpt-dragon-config.jsonc",
+  "animationDirectory": "chatgpt-dragon-animation",
+  "version": 1
+}

@@ -1,6 +1,6 @@
 {
-  "version": "0.4.2-codex.1",
-  "tag": "codex-v0.4.2",
+  "version": "0.4.3-codex.1",
+  "tag": "codex-v0.4.3",
   "upstream": "PC2005-cloud/dsh-pet",
   "upstreamCommit": "2b72c1bd246e851c5e1b4890db834aba3452af43",
   "platform": "darwin",
@@ -9,15 +9,17 @@
   "signing": "ad-hoc",
   "notarized": false,
   "testedCodexCli": "0.164.0-alpha.11.1",
-  "targetedTests": 237,
+  "targetedTests": 257,
   "assets": [
     {
-      "name": "dsh-codex-companion-0.4.2-codex.1-macos-arm64.zip",
-      "sha256": "1326d463156ca1ea6bf73af4525e60bc1a8ccbc1f6581fcc3e5dacc27561206a"
+      "name": "dsh-codex-companion-0.4.3-codex.1-macos-arm64.zip",
+      "sha256": "bada308b485558522e747ab25f94c246538b8f5a27bccaf44a710f9a13a64a91",
+      "bytes": 232371776
     },
     {
       "name": "dsh-native-pet-1.0.0.zip",
-      "sha256": "619f4ac2e5c8fe7aa4ad99a711a0451db7a0071a2801a3f910ce29baba09b5ce"
+      "sha256": "619f4ac2e5c8fe7aa4ad99a711a0451db7a0071a2801a3f910ce29baba09b5ce",
+      "bytes": 12473073
     }
   ]
 }

@@ -1,0 +1,308 @@
+{
+  "source": "built-in image_gen",
+  "sourcePoseCount": 84,
+  "animationCount": 16,
+  "walkingSourceFrames": 8,
+  "walkingCycleSeconds": 1,
+  "walkingRepeats": 4,
+  "randomMovementEnabled": true,
+  "elegantActions": [
+    "提裙轻礼",
+    "拂发整袖",
+    "从容抿茶",
+    "静心阅卷",
+    "舒翼摆尾",
+    "优雅颔首",
+    "悬空轻扶"
+  ],
+  "animations": [
+    {
+      "name": "白龙事件轻语.webm",
+      "bytes": 711829,
+      "sha256": "7557c281189bf5f1b56f4cee854478b77b55b342a3c2f6ea5040a860280cdf36",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 50,
+      "distinctDecodedFrames": 50,
+      "visibleBounds": [
+        192,
+        42,
+        466,
+        333
+      ]
+    },
+    {
+      "name": "白龙从容抿茶.webm",
+      "bytes": 259261,
+      "sha256": "4f52583041b5f9d55e59eee82b490cc1fc9d1c2ae13742c94157d55fa612dd49",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 26,
+      "distinctDecodedFrames": 23,
+      "visibleBounds": [
+        193,
+        48,
+        468,
+        333
+      ]
+    },
+    {
+      "name": "白龙优雅颔首.webm",
+      "bytes": 157964,
+      "sha256": "e29aaace2d0370c8f0b840388974d218c88c9304d72fa5e96d9fc9be87d7498a",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 10,
+      "distinctDecodedFrames": 9,
+      "visibleBounds": [
+        184,
+        35,
+        474,
+        333
+      ]
+    },
+    {
+      "name": "白龙品茶.webm",
+      "bytes": 56309,
+      "sha256": "583b7576d3afbdd2032a9626bc1e0ad98e35e1a9aba93528832c8ddffb12cd22",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 30,
+      "distinctDecodedFrames": 10,
+      "visibleBounds": [
+        207,
+        51,
+        442,
+        335
+      ]
+    },
+    {
+      "name": "白龙回首转身.webm",
+      "bytes": 230316,
+      "sha256": "b48f2ce2c1cd253cde8cb1546b9d9a7f6585955e7e85a8df074d7c0de3dffee7",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 11,
+      "distinctDecodedFrames": 11,
+      "visibleBounds": [
+        200,
+        40,
+        450,
+        333
+      ]
+    },
+    {
+      "name": "白龙待机灵动.webm",
+      "bytes": 711829,
+      "sha256": "7557c281189bf5f1b56f4cee854478b77b55b342a3c2f6ea5040a860280cdf36",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 50,
+      "distinctDecodedFrames": 50,
+      "visibleBounds": [
+        192,
+        42,
+        466,
+        333
+      ]
+    },
+    {
+      "name": "白龙待机眨眼.webm",
+      "bytes": 101710,
+      "sha256": "9b4cbf9cf9c1622d1feba70839b47679093a87aca9af8d2f7a334c2de40133a7",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 58,
+      "distinctDecodedFrames": 39,
+      "visibleBounds": [
+        208,
+        51,
+        442,
+        334
+      ]
+    },
+    {
+      "name": "白龙悬空摆尾.webm",
+      "bytes": 438864,
+      "sha256": "228e61e3063d9da053c7120dcf31f50ddabd28ece74137ddc7f8ac49c79b024d",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 17,
+      "distinctDecodedFrames": 17,
+      "visibleBounds": [
+        188,
+        33,
+        467,
+        333
+      ]
+    },
+    {
+      "name": "白龙悬空轻扶.webm",
+      "bytes": 729539,
+      "sha256": "e2d7e9a67b44e7db3eab7d35ed144054374a39ee07ea1762b20a839c36b85216",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 25,
+      "distinctDecodedFrames": 25,
+      "visibleBounds": [
+        190,
+        33,
+        480,
+        333
+      ]
+    },
+    {
+      "name": "白龙拂发整袖.webm",
+      "bytes": 316535,
+      "sha256": "0b761c0cfc0c032ced671499580c2d253ed4a85e61a4b81e5e1d026ad97d2e64",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 17,
+      "distinctDecodedFrames": 17,
+      "visibleBounds": [
+        184,
+        33,
+        491,
+        333
+      ]
+    },
+    {
+      "name": "白龙挥手.webm",
+      "bytes": 53542,
+      "sha256": "dea66fd195b82b404c5fc1dfb3c284819eb4b9fd636bc55aa1025a011ac81cdf",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 20,
+      "distinctDecodedFrames": 12,
+      "visibleBounds": [
+        208,
+        51,
+        442,
+        334
+      ]
+    },
+    {
+      "name": "白龙提裙轻礼.webm",
+      "bytes": 291508,
+      "sha256": "104fbc0944aa9ab93e1aac31bb77064b82bff8e5ff454bb93d8d4670c3e692ac",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 22,
+      "distinctDecodedFrames": 20,
+      "visibleBounds": [
+        184,
+        35,
+        474,
+        333
+      ]
+    },
+    {
+      "name": "白龙舒翼摆尾.webm",
+      "bytes": 295062,
+      "sha256": "4c298b354ca5aa7a311ed91e7c3827f4148c16636f71d8ecaf60b5596a1c75f8",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 18,
+      "distinctDecodedFrames": 18,
+      "visibleBounds": [
+        222,
+        45,
+        464,
+        333
+      ]
+    },
+    {
+      "name": "白龙轻快行走.webm",
+      "bytes": 680774,
+      "sha256": "9347a03703b4e1601a457d32c721d63b86a9cbe437f2bab82b7c9dc92a87ff5b",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 36,
+      "distinctDecodedFrames": 32,
+      "visibleBounds": [
+        215,
+        40,
+        456,
+        329
+      ]
+    },
+    {
+      "name": "白龙轻闭双眼.webm",
+      "bytes": 54384,
+      "sha256": "e2bff36efdd315a900e957ef5124e05dc9d041623e4dc1edff897aed37d1cc81",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 34,
+      "distinctDecodedFrames": 7,
+      "visibleBounds": [
+        208,
+        51,
+        442,
+        334
+      ]
+    },
+    {
+      "name": "白龙静心阅卷.webm",
+      "bytes": 267754,
+      "sha256": "f9c970433a5246b3fe576b69d9f407e6652b61f7e14808b81ff292e86667090e",
+      "canvas": [
+        640,
+        360
+      ],
+      "transparent": true,
+      "sampledFrames": 32,
+      "distinctDecodedFrames": 32,
+      "visibleBounds": [
+        192,
+        33,
+        470,
+        333
+      ]
+    }
+  ]
+}
