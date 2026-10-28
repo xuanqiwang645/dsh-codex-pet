@@ -23,6 +23,8 @@ interface RouterDeps {
   log(message: string): void;
   status(port: number): unknown;
   landingPage(port: number): string;
+  /** A companion can replace the API-key settings UI while retaining the same request boundary. */
+  settingsAssets?: { page: string; script: string; style: string };
 }
 
 /**
@@ -62,9 +64,9 @@ export function startRouter(
 
     const dispatch = async (request: IncomingMessage): Promise<void> => {
       const assets: Record<string, readonly [string, string]> = {
-        '/standalone-ai/': [settingsPage, 'text/html'],
-        '/standalone-ai/settings.js': [settingsScript, 'text/javascript'],
-        '/standalone-ai/settings.css': [settingsStyle, 'text/css'],
+        '/standalone-ai/': [deps.settingsAssets?.page ?? settingsPage, 'text/html'],
+        '/standalone-ai/settings.js': [deps.settingsAssets?.script ?? settingsScript, 'text/javascript'],
+        '/standalone-ai/settings.css': [deps.settingsAssets?.style ?? settingsStyle, 'text/css'],
       };
       const asset = assets[url.pathname];
       if (asset || url.pathname === '/health' || url.pathname === '/') {

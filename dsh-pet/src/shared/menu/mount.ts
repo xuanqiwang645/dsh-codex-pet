@@ -44,12 +44,14 @@ export function mountContextMenu(opts: {
 
   /** 每个面板当前展开的子面板（无 = 未展开）；hideChain 会沿链清除 */
   const openChild = new Map<HTMLElement, HTMLElement>();
+  const panelOwner = new Map<HTMLElement, HTMLElement>();
   /** 指针整体离开菜单树的兜底关闭定时器（root mouseover 重新进入即取消） */
   let leaveTimer: number | null = null;
 
   /** 关闭某面板及其后代面板整条链（display:none + 清 openChild 链） */
   const hideChain = (panel: HTMLElement): void => {
     panel.style.display = 'none';
+    panelOwner.get(panel)?.setAttribute('aria-expanded', 'false');
     const child = openChild.get(panel);
     if (child) {
       openChild.delete(panel);
@@ -87,6 +89,7 @@ export function mountContextMenu(opts: {
   const buildPanel = (nodes: MenuNode[]): HTMLElement => {
     const panel = document.createElement('div');
     panel.className = 'dsh-pet-menu-column';
+    panel.setAttribute('role', 'menu');
     panel.style.display = 'none';
     // 桌面 clamp：把列高封顶到可视矩形内（否则 62vh 相对的是窗口高度，可视区更小时仍会溢出被裁）
     if (clamp) panel.style.maxHeight = Math.min(460, Math.max(120, c.h - 16)) + 'px';
@@ -94,23 +97,45 @@ export function mountContextMenu(opts: {
     for (const node of nodes) {
       const item = document.createElement('div');
       item.className = 'dsh-pet-menu-item';
+      item.setAttribute('role', 'menuitem');
+      item.setAttribute('aria-label', node.label);
+      item.tabIndex = 0;
       if (isBranchNode(node)) {
         item.classList.add('dsh-pet-menu-branch');
+        item.setAttribute('aria-haspopup', 'menu');
+        item.setAttribute('aria-expanded', 'false');
         const label = document.createElement('span');
         label.textContent = node.label;
         const arrow = document.createElement('span');
         arrow.className = 'dsh-pet-menu-arrow';
         arrow.textContent = '▸';
+        arrow.setAttribute('aria-hidden', 'true');
         item.appendChild(label);
         item.appendChild(arrow);
         const childPanel = buildPanel(node.children); // 递归：子面板已入树（晚于本面板）
+        childPanel.setAttribute('aria-label', node.label);
+        panelOwner.set(childPanel, item);
         // 悬停分支：先收掉本面板其它分支已展开的子面板链，再展开当前的。
         // 指针在本菜单树内移动绝不自动收起——跨 4px 缝隙或面板间隙都不会触发关闭。
-        item.addEventListener('mouseenter', () => {
+        const openBranch = (): void => {
           const prev = openChild.get(panel);
           if (prev && prev !== childPanel) hideChain(prev);
           openChild.set(panel, childPanel);
+          item.setAttribute('aria-expanded', 'true');
           showPanel(childPanel, item);
+        };
+        item.addEventListener('mouseenter', openBranch);
+        item.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          openBranch();
+        });
+        item.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'ArrowRight') return;
+          event.preventDefault();
+          event.stopPropagation();
+          openBranch();
+          childPanel.querySelector<HTMLElement>('[role="menuitem"]')?.focus();
         });
       } else {
         const label = document.createElement('span');
@@ -123,11 +148,15 @@ export function mountContextMenu(opts: {
           hint.textContent = node.hint;
           item.appendChild(hint);
         }
-        item.addEventListener('click', (e) => {
+        const activate = (e: Event): void => {
           e.preventDefault();
           e.stopPropagation();
           close();
           onAction(node);
+        };
+        item.addEventListener('click', activate);
+        item.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') activate(event);
         });
       }
       panel.appendChild(item);
@@ -136,6 +165,7 @@ export function mountContextMenu(opts: {
   };
 
   const rootPanel = buildPanel(tree);
+  rootPanel.setAttribute('aria-label', '宠物菜单');
   rootPanel.style.display = 'block';
 
   // 必须先 append 到文档：未入文档时量不到面板尺寸，一切「静默无显示」

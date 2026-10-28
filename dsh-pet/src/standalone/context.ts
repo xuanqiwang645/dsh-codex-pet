@@ -49,6 +49,8 @@ export interface StandaloneContextOptions {
    * 只有独立模式提供：DSH 内的桌面模式不挂这个字段，关掉整个 DSH 不该由一只宠物决定。
    */
   shutdown?: (reason: string) => void;
+  /** Optional host event source; the Codex companion feeds only its own chat activity. */
+  events?: { on(name: string, listener: (...args: unknown[]) => void): () => void };
 }
 
 /** 伪 ctx 与它的生命周期。 */
@@ -148,8 +150,8 @@ export function createStandaloneContext(options: StandaloneContextOptions): Stan
     effect: createEffectRunner(disposers, failures, logger),
     ...createServiceRegistry(services, () => context),
     /** 独立模式没有 DSH 会话事件：不订阅，工作状态保持空闲。 */
-    on(): () => void {
-      return () => {};
+    on(name: string, listener: (...args: unknown[]) => void): () => void {
+      return options.events?.on(name, listener) ?? (() => {});
     },
     logger,
     webServer,

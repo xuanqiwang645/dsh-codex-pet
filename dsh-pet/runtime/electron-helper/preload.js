@@ -48,6 +48,10 @@ contextBridge.exposeInMainWorld('petBridge', {
   openDshSite(url) {
     ipcRenderer.send('pet:open-site', { url });
   },
+  // Only the main process supplies the authenticated local settings address.
+  openSettings() {
+    ipcRenderer.send('pet:open-settings');
+  },
   // 截一帧桌面（宠物所在那块屏）：一次性读取，不建流、不留存。
   // 返回 { mediaType, data, width, height, bytes } 或 null（取不到画面）。
   captureScreen() {

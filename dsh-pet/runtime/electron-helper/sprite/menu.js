@@ -8,7 +8,7 @@
 'use strict';
 
 // 菜单首项文案随宿主形态变：桌面应用唤起主窗口，独立模式打开本机 AI 设置页，web 宿主打开站点。
-const OPEN_LABEL = { desktop: '打开软件', standalone: '打开 AI 设置', web: '打开网站' };
+const OPEN_LABEL = { desktop: '打开软件', standalone: '打开 AI 设置', codex: '打开 Codex', web: '打开网站' };
 
 Object.assign(PetSprite.prototype, {
   onContextMenu(e) {
@@ -27,7 +27,8 @@ Object.assign(PetSprite.prototype, {
       },
     ];
     // 「查看余额」无条件显示：关了 balanceEnabled 的宠物也能点，手动请求不受开关限制，点了一定给答复。
-    tools.push({ label: '查看余额', action: 'show-balance' });
+    if (OPEN_TARGET === 'codex') tools.push({ label: '桌宠设置', action: 'open-settings' });
+    tools.push({ label: OPEN_TARGET === 'codex' ? '查看 Codex 额度' : '查看余额', action: 'show-balance' });
     tools.push(
       { label: '碎碎念', action: 'whisper' },
       { label: '对话', action: 'chat', hint: S.CHAT_HOTKEY_HINT },
@@ -39,6 +40,7 @@ Object.assign(PetSprite.prototype, {
       // 重载配置：请宿主重启桌面 Helper，全部窗口按最新配置重建。放在最后——它是维护动作。
       { label: '重载配置', action: 'reload' },
     );
+    if (OPEN_TARGET === 'codex') tools.push({ label: '退出桌宠', action: 'quit-app' });
     // 第三方菜单项统一收在「更多」下：0 项不出现；某个 owner 只有 1 项时跳过 owner 那层直接平铺。
     // 放在整棵动作树之后——「更多」不插在工具项与动作之间。
     const more = S.buildMoreBranch(this.menuItems);
@@ -83,6 +85,16 @@ Object.assign(PetSprite.prototype, {
     }
     if (leaf.action === 'open-site') {
       if (window.petBridge) window.petBridge.openDshSite(ORIGIN); // 系统默认浏览器打开（等效 Ctrl+点击链接）
+      return;
+    }
+    if (leaf.action === 'open-settings') {
+      if (window.petBridge && typeof window.petBridge.openSettings === 'function') window.petBridge.openSettings();
+      return;
+    }
+    if (leaf.action === 'quit-app' && OPEN_TARGET === 'codex') {
+      S.postAction(BASE + '/quit').catch(() => {
+        console.warn('[dsh-pet] 退出桌宠请求未完成');
+      });
       return;
     }
     if (leaf.action === 'show-balance') {
@@ -181,6 +193,7 @@ Object.assign(PetSprite.prototype, {
     S.setVoiceBase(BASE);
     const m = S.mountChatDialog({
       petId: this.pet.id,
+      allowImages: OPEN_TARGET !== 'codex',
       baseUrl: BASE + '/chat',
       surface: 'desktop',
       x: Math.max(4, this.hit.getBoundingClientRect().right + 6),

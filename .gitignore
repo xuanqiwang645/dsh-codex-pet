@@ -51,3 +51,8 @@ dsh-pet/dist-app/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Generated Codex application payloads are published as Release assets.
+codex/companion/*.app/
+codex/companion/*.app.zip
+codex/companion/source-overlay.zip

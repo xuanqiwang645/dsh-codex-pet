@@ -7,6 +7,7 @@
  */
 
 import { createRequire } from 'node:module';
+import { EventEmitter } from 'node:events';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -14,7 +15,11 @@ import { flattenPetList, readAllConfig } from '../host/config.ts';
 import { dshHomeDir } from '../host/helper-process.ts';
 import { apply } from '../host/index.ts';
 import { createFileLogger, setDefaultLogger } from '../host/log-file.ts';
-import { createStandaloneAi } from '../standalone/ai-provider.ts';
+import { createCodexAi } from '../codex/index.ts';
+import { registerCodexBalance, createCodexQuotaRoute } from '../companion/balance.ts';
+import { codexSettingsAssets } from '../companion/settings-page.ts';
+import { configureCompanion } from './companion-bootstrap.ts';
+import { writeStandaloneRuntime } from '../standalone/runtime-state.ts';
 import { packageVersion } from '../standalone/check.ts';
 import { createStandaloneContext, type RegisteredRoute } from '../standalone/context.ts';
 import { configPathsFor } from '../standalone/options.ts';
@@ -35,6 +40,11 @@ interface WebContentsLike {
   ): void;
 }
 interface ElectronApp {
+  getPath(name: string): string;
+  setPath(name: string, value: string): void;
+  setName(name: string): void;
+  quit(): void;
+  relaunch(): void;
   whenReady(): Promise<void>;
   requestSingleInstanceLock(): boolean;
   exit(code?: number): void;
@@ -53,6 +63,8 @@ const packageRoot = resolve(here, '..');
 const helperMain = join(packageRoot, 'runtime', 'electron-helper', 'main.js');
 
 const log = (message: string): void => console.log(`[dsh-pet-app] ${message}`);
+
+configureCompanion(app);
 
 /** 单实例：第二次双击直接退出（共用 userData 的 Chromium profile 会互踢） */
 const locked = app.requestSingleInstanceLock();
@@ -104,25 +116,55 @@ async function boot(): Promise<void> {
 
   // 与 CLI 同一套安全模型：令牌只经「配置页地址的 #token=」递给浏览器，不进日志
   const security = createRequestSecurity();
-  const ai = createStandaloneAi(dshHomeDir(), logger);
+  const ai = createCodexAi(dshHomeDir(), logger);
+  const activity = new EventEmitter();
+  const stream = ai.stream.bind(ai);
+  ai.stream = async function* (options: unknown) {
+    const session = { id: 'codex-pet-chat' };
+    activity.emit('session/event', session, { type: 'turn/start', data: {} });
+    let reason = 'aborted';
+    try {
+      for await (const chunk of stream(options)) yield chunk;
+      reason = 'completed';
+    } catch (error) {
+      reason = 'error';
+      throw error;
+    } finally {
+      activity.emit('session/event', session, { type: 'turn/end', data: { reason: { kind: reason } } });
+    }
+  };
+  const releaseCodexBalance = registerCodexBalance(() => ai.readRateLimits());
+  routes.push(createCodexQuotaRoute(() => ai.readRateLimits()));
   const context = createStandaloneContext({
     port: () => port,
     logger,
     routes,
     ai,
     authenticatedUrl: security.authenticatedUrl,
+    shutdown: () => { setTimeout(() => app.quit(), 150); },
+    events: { on(name, listener) { activity.on(name, listener); return () => { activity.off(name, listener); }; } },
   });
+  let restartScheduled = false;
+  context.ctx.restartDesktopApp = () => {
+    if (restartScheduled) return;
+    restartScheduled = true;
+    setTimeout(() => { app.relaunch(); app.quit(); }, 300);
+  };
 
-  const server = await startRouter(routes, { security, ai, log, status, landingPage });
+  const server = await startRouter(routes, { security, ai, log, status, landingPage, settingsAssets: codexSettingsAssets });
   port = server.port;
   const origin = `http://127.0.0.1:${port}`;
+  const releaseRuntime = writeStandaloneRuntime(dshHomeDir(), {
+    port, token: security.token,
+    settingsUrl: security.authenticatedUrl(origin), pluginRoot: packageRoot,
+  });
   log(`本机服务 ${origin}`);
 
   // 先把「我自己就是应用」告诉插件，再 apply：apply 内部据此短路 spawn 与下载
   process.env.DSH_PET_IN_PROCESS = '1';
   process.env.DSH_PET_APP_MODE = '1';
   // 独立模式点首项打开的是本机 AI 设置页，不是 DSH 站点：形态必须显式标成 standalone。
-  process.env.DSH_PET_OPEN_TARGET = 'standalone';
+  process.env.DSH_PET_OPEN_TARGET = 'codex';
   // 不注入宿主 PID：helper 的「宿主没了就退出」只对双进程有意义，同进程里设了会自己杀自己
   delete process.env.DSH_PET_HOST_PID;
   process.env.DSH_PET_CONFIG_URL = `${origin}${ROUTE_PATH}/config`;
@@ -132,6 +174,8 @@ async function boot(): Promise<void> {
 
   apply(context.ctx);
   log(`apply() 完成：routes=${routes.length} 失败=${context.failures.length}`);
+  // Account metadata can be unavailable temporarily without preventing feeding/play.
+  void ai.refresh().catch(() => logger.warn('Codex 暂未连接；请在桌宠设置中重试'));
 
   // helper 读它决定建几个窗口；读不到时它会回落到单个默认窗口，首帧再由渲染端自校正
   process.env.DSH_PET_PETS = JSON.stringify(desktopPets());
@@ -165,6 +209,9 @@ async function boot(): Promise<void> {
     void logger.flush();
     logger.dispose();
     void ai.dispose();
+    releaseCodexBalance();
+    releaseRuntime();
+    activity.removeAllListeners();
     void context.dispose().catch(() => undefined);
     void server.close().catch(() => undefined);
   });
@@ -227,14 +274,14 @@ function landingPage(port: number): string {
   ul{margin:6px 0;padding-left:20px} a{color:#0969da}
 </style></head>
 <body><main>
-  <h1>dsh-pet 桌宠</h1>
+  <h1>DSH Codex Pet</h1>
   <div class="sub">版本 ${escapeHtml(String(info.version))} · 端口 ${port}</div>
   <h2>宠物</h2><ul>${petLines}</ul>
   <h2>配置文件</h2>
   <p><code>${escapeHtml(String(info.configFile))}</code></p>
   <p>改完配置后从托盘退出、重新打开应用即可生效（本模式没有「重载配置」菜单）。</p>
   <h2>AI 设置</h2>
-  <p>AI 模型与密钥的配置页需要令牌，请<strong>右键桌宠 →「打开 AI 设置」</strong>，会直接打开已授权的页面。</p>
+  <p>右键桌宠 →「桌宠设置」，可选择聊天模型、查看 Codex 额度和调整外观。聊天沿用本机 Codex 登录。</p>
   <h2>状态</h2>
   <p><a href="/health">/health</a> · <a href="/standalone-ai/">配置页（未授权时读写会返回 403）</a></p>
 </main></body></html>`;

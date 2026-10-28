@@ -110,6 +110,8 @@ export interface ChatDialogOptions {
   initialImage?: File;
   /** 截屏实现：浏览器传 getDisplayMedia 抓帧，桌面传 preload 的 IPC 调用；缺省 = 不支持。 */
   capture?: () => Promise<EncodedImage>;
+  /** Text-only providers can hide and disable all image input paths. Defaults to true. */
+  allowImages?: boolean;
 }
 
 /** 挂载一个对话输入弹窗（两端共用；位置为视口坐标，超出 clamp 矩形自动夹回）。
@@ -127,7 +129,7 @@ export function mountChatDialog(opts: ChatDialogOptions): ChatDialogMount {
       ? clamp
       : { x: 0, y: 0, w: window.innerWidth, h: window.innerHeight };
 
-  const dom = createChatDom({ capture: opts.capture });
+  const dom = createChatDom({ capture: opts.capture, allowImages: opts.allowImages });
   const { root, input, err } = dom;
 
   /** 以 (x,y) 落点，超出 clamp 矩形夹回。 */

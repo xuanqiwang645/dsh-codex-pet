@@ -31,7 +31,7 @@ function toLocal(v) {
 const BRIDGE = params.get('bridge') === '1';
 // 菜单首项去向（主进程按宿主形态注入）：desktop 唤起桌面应用，standalone 打开本机 AI 设置页，web 打开站点。
 const OPEN_TARGET_RAW = params.get('openTarget');
-const OPEN_TARGET = OPEN_TARGET_RAW === 'desktop' || OPEN_TARGET_RAW === 'standalone' ? OPEN_TARGET_RAW : 'web';
+const OPEN_TARGET = ['desktop', 'standalone', 'codex'].includes(OPEN_TARGET_RAW) ? OPEN_TARGET_RAW : 'web';
 // 视口 = 全部显示器工作区的外接矩形，只是坐标系原点与比例换算基准；边界判定一律走 AREAS 的并集
 // （不规则布局下外接矩形含大片不属于任何屏的空洞）。主进程下发的是物理像素，VIEW 是 ÷scale 后的 CSS 系。
 const VIEW_SCREEN = {

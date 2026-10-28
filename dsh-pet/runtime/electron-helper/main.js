@@ -67,14 +67,20 @@ app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 const APP_MODE = process.env.DSH_PET_APP_MODE === '1';
 // 只供同进程应用自己的请求使用，绝不出现在渲染端地址或日志里。
 const APP_TOKEN = APP_MODE ? process.env.DSH_PET_APP_TOKEN : undefined;
-app.setName('dsh-pet-electron-helper');
+app.setName(process.env.DSH_PET_COMPANION === '1' ? 'DSH Codex Pet' : 'dsh-pet-electron-helper');
 // Windows 任务栏分组：不设 AppUserModelID 时窗口归到 electron.exe 名下，任务栏按钮意外出现就显示
 // Electron 默认图标。必须在 ready 之前调用；独立应用与 DSH 内 helper 用不同 ID，避免被合成一组。
 if (process.platform === 'win32') {
   app.setAppUserModelId(APP_MODE ? 'com.dsh.pet.app' : 'com.dsh.pet.helper');
 }
 // 应用模式只改数据目录、不改应用名：共用同一个 userData 时两个 Chromium 进程会抢同一份 profile 互踢。
-if (APP_MODE) app.setPath('userData', path.join(app.getPath('appData'), 'dsh-pet'));
+if (APP_MODE)
+  app.setPath(
+    'userData',
+    process.env.DSH_PET_COMPANION === '1'
+      ? process.env.DSH_CODEX_PET_PROFILE || path.join(app.getPath('appData'), 'DSH Codex Pet', 'chromium')
+      : path.join(app.getPath('appData'), 'dsh-pet'),
+  );
 
 /** DPI 探测子进程模式：不建窗口，只把主屏 scaleFactor 打到 stdout 就退出（见 probePrimaryScale） */
 const DPI_PROBE = process.env.DSH_PET_DPI_PROBE === '1';
@@ -149,7 +155,7 @@ const BRIDGE = process.env.DSH_PET_BRIDGE === '1';
  *  'standalone' = 独立模式 → 打开本机 AI 设置页；
  *  'web'        = dsh web / 手写 start-desktop（无该变量）→ 默认浏览器打开站点。 */
 const OPEN_TARGET_RAW = process.env.DSH_PET_OPEN_TARGET;
-const OPEN_TARGET = OPEN_TARGET_RAW === 'desktop' || OPEN_TARGET_RAW === 'standalone' ? OPEN_TARGET_RAW : 'web';
+const OPEN_TARGET = ['desktop', 'standalone', 'codex'].includes(OPEN_TARGET_RAW) ? OPEN_TARGET_RAW : 'web';
 /** 协议行前缀（与 helper-process.ts 的 BRIDGE_PREFIX 一致） */
 const BRIDGE_PREFIX = 'dsh-pet-bridge:';
 

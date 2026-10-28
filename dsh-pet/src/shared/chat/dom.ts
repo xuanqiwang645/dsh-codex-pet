@@ -70,7 +70,8 @@ function enableAutoResize(input: HTMLTextAreaElement, root: HTMLElement): () => 
  * @param opts - 可选的截屏实现；不传时按钮只给"当前环境不支持"的提示。
  * @returns 元素引用与行为（清理附件、临时提示、自适应、释放计时器）。
  */
-export function createChatDom(opts: { capture?: () => Promise<EncodedImage> } = {}): ChatDom {
+export function createChatDom(opts: { capture?: () => Promise<EncodedImage>; allowImages?: boolean } = {}): ChatDom {
+  const allowImages = opts.allowImages !== false;
   const root = document.createElement('div');
   root.className = 'dsh-pet-chat';
 
@@ -120,7 +121,8 @@ export function createChatDom(opts: { capture?: () => Promise<EncodedImage> } = 
   actions.className = 'dsh-pet-chat-actions';
   actions.append(pickBtn, shotBtn, fileInput, attach);
 
-  root.append(input, actions, hint, err);
+  if (allowImages) root.append(input, actions, hint, err);
+  else root.append(input, hint, err);
   document.body.appendChild(root);
 
   const resizeInput = enableAutoResize(input, root);
@@ -136,6 +138,7 @@ export function createChatDom(opts: { capture?: () => Promise<EncodedImage> } = 
   };
   /** 把编码结果挂上去：上传与截屏两条路共用这一处落点。 */
   const applyEncoded = (encoded: EncodedImage): boolean => {
+    if (!allowImages) return false;
     if (!root.isConnected) return false; // 编码完成前弹窗已关
     attachment = { mediaType: encoded.mediaType, data: encoded.base64 };
     thumb.src = encoded.previewUrl;
@@ -143,6 +146,7 @@ export function createChatDom(opts: { capture?: () => Promise<EncodedImage> } = 
     return true;
   };
   const setImageFile = async (file: File): Promise<boolean> => {
+    if (!allowImages) return false;
     if (!isImageFile(file)) {
       flash('只支持 PNG / JPEG / WebP / GIF');
       return false;
@@ -169,13 +173,14 @@ export function createChatDom(opts: { capture?: () => Promise<EncodedImage> } = 
   // 粘贴图片：截图工具通常先把图放剪贴板，Ctrl+V 比"存盘再选文件"少两步。
   // 挂在根元素上而不是输入框：焦点可能停在 ✕ / 按钮上，事件照样冒泡到这里；纯文本不拦截。
   root.addEventListener('paste', (e) => {
+    if (!allowImages) return;
     const file = firstImageFromClipboard(e.clipboardData);
     if (!file) return;
     e.preventDefault();
     void setImageFile(file);
   });
   // 截屏：有实现就抓一帧（流在实现里立刻停掉，不留长连接）；没有就说明当前环境不支持
-  if (opts.capture) {
+  if (opts.capture && allowImages) {
     const capture = opts.capture;
     shotBtn.addEventListener('click', () => {
       if (capturing) return;

@@ -18,9 +18,17 @@ export type { DesktopHelperDeps };
  * @returns 启动、停止、请求重启与素材根解析。
  */
 export function createDesktopHelper(deps: DesktopHelperDeps) {
+  // DSH ctx 的未注入服务不能直接读属性；无 get 的普通上下文才回落成属性。
+  const get = (deps.ctx as { get?: (name: string, required?: boolean) => unknown }).get;
+  const restart =
+    typeof get === 'function'
+      ? get.call(deps.ctx, 'restartDesktopApp', false)
+      : (deps.ctx as Record<string, unknown>).restartDesktopApp;
+  const restartInProcess =
+    typeof restart === 'function' ? () => (restart as () => void | Promise<void>).call(deps.ctx) : undefined;
   const pets = createDesktopPets(deps);
   const spawn = createDesktopSpawn({ ...deps, ...pets });
-  const sync = createDesktopSync({ ...deps, ...pets, ...spawn });
+  const sync = createDesktopSync({ ...deps, ...pets, ...spawn, restartInProcess });
   return {
     startHelper: spawn.startHelper,
     stopHelper: spawn.stopHelper,

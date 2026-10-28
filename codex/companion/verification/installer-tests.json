@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "checks": [
+    "first install from unrelated cwd and spaces in both paths",
+    "ZIP preferred and installed ad-hoc signature verifies strictly",
+    "reinstall keeps old version in reversible backup",
+    "running app replacement and uninstall refused",
+    "uninstall moves app to backup and retains data",
+    "repeat uninstall is no-op",
+    "foreign application refused without changing bytes",
+    "symbolic target refused without following it",
+    "relative target refused",
+    "archive parent traversal refused before extraction",
+    "archive absolute symlink refused before extraction",
+    "tampered signed ZIP refused before installation"
+  ],
+  "source_unchanged": true,
+  "user_apps_modified": false,
+  "GUI_launched": false
+}

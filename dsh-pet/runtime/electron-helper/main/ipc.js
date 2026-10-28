@@ -157,6 +157,18 @@ function registerIpc({ ipcMain, petWindows, shell, openTarget, petRoute }) {
   // 拦下、宿主收到 second-instance 后聚焦；未运行则协议直接把应用拉起来），比 spawn 宿主 exe 干净；
   // site 则是原行为：系统默认浏览器打开站点。
   ipcMain.on('pet:open-site', (event, payload) => {
+    if (openTarget === 'codex') {
+      const win = BrowserWindow.fromWebContents(event.sender);
+      if (!win || win.isDestroyed()) return;
+      const homeApps = require('node:path').join(require('node:os').homedir(), 'Applications');
+      const candidates = ['/Applications/ChatGPT.app', '/Applications/Codex.app',
+        require('node:path').join(homeApps, 'ChatGPT.app'), require('node:path').join(homeApps, 'Codex.app')];
+      const target = candidates.find((candidate) => require('node:fs').existsSync(candidate));
+      const report = () => require('electron').dialog.showErrorBox('无法打开 Codex', '请先安装并登录 Codex 桌面应用，再重试。');
+      if (target) void shell.openPath(target).then((error) => { if (error) report(); }).catch(report);
+      else report();
+      return;
+    }
     const url = payload && typeof payload === 'object' ? String(payload.url || '') : '';
     if (!/^https?:[/][/]/.test(url)) return;
     if (openTarget === 'desktop') {
@@ -168,6 +180,18 @@ function registerIpc({ ipcMain, petWindows, shell, openTarget, petRoute }) {
       return;
     }
     openSite(url);
+  });
+
+  ipcMain.on('pet:open-settings', (event) => {
+    if (openTarget !== 'codex') return;
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (!win || win.isDestroyed()) return;
+    // Only the fixed authenticated loopback URL from this app's boot is allowed.
+    try {
+      const target = new URL(process.env.DSH_PET_SITE_URL || '');
+      if (target.protocol !== 'http:' || target.hostname !== '127.0.0.1') return;
+      void shell.openExternal(target.href).catch(() => {});
+    } catch {}
   });
 
   /**

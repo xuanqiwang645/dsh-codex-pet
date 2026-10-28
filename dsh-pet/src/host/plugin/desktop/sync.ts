@@ -12,13 +12,16 @@ import type { DesktopSpawn } from './spawn.ts';
 /** DesktopSync的输入。 */
 export type DesktopSyncInput = Pick<DesktopHelperDeps, 'log'> &
   Pick<DesktopPets, 'logDesktopDecision'> &
-  Pick<DesktopSpawn, 'startHelper' | 'stopHelperAndWait'>;
+  Pick<DesktopSpawn, 'startHelper' | 'stopHelperAndWait'> & {
+    /** 同进程 App 提供真实重启；普通 DSH/standalone 继续重启子进程。 */
+    restartInProcess?: () => void | Promise<void>;
+  };
 
 /**
  * 创建DesktopSync。
  */
 export function createDesktopSync(deps: DesktopSyncInput) {
-  const { log, logDesktopDecision, startHelper, stopHelperAndWait } = deps;
+  const { log, logDesktopDecision, startHelper, stopHelperAndWait, restartInProcess } = deps;
 
   let desktopSyncQueue: Promise<void> = Promise.resolve();
 
@@ -27,8 +30,12 @@ export function createDesktopSync(deps: DesktopSyncInput) {
       .then(async () => {
         // 判定是现读的（pets 不持有状态），这里只补一行诊断日志。
         logDesktopDecision();
-        await stopHelperAndWait('desktop-config-change');
-        startHelper();
+        if (restartInProcess) {
+          await restartInProcess();
+        } else {
+          await stopHelperAndWait('desktop-config-change');
+          startHelper();
+        }
       })
       .catch((e: unknown) => {
         log.warn(`[dsh-pet] 重启桌面 Helper 失败：${e instanceof Error ? e.message : String(e)}`);

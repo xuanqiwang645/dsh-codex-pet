@@ -1,0 +1,235 @@
+{
+  "upstream": "https://github.com/PC2005-cloud/dsh-pet",
+  "upstream_commit": "2b72c1bd246e851c5e1b4890db834aba3452af43",
+  "spriteVersionNumber": 1,
+  "atlas_size": [
+    1536,
+    1872
+  ],
+  "cell_size": [
+    192,
+    208
+  ],
+  "scale": 0.58,
+  "source_origin": [
+    320,
+    331
+  ],
+  "destination_origin": [
+    96,
+    196
+  ],
+  "alpha_cleanup": "Set alpha <= 2/255 to zero before and after resize; clear hidden RGB",
+  "ffmpeg_decoder": "libvpx-vp9",
+  "rows": [
+    {
+      "state": "idle",
+      "source": "dsh-pet/assets/webm/待机呼吸休闲.webm",
+      "source_sha256": "deb965d05a85dacf5ff4a20faa757846f0d11679598c3ec578a5571487660395",
+      "sample_times_seconds": [
+        0.0,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0
+      ],
+      "mirror_horizontal": false,
+      "durations_ms": [
+        280,
+        110,
+        110,
+        140,
+        140,
+        320
+      ]
+    },
+    {
+      "state": "running-right",
+      "source": "dsh-pet/assets/webm/原地左转奔跑.webm",
+      "source_sha256": "79882aedd7b77caaacce1a34dece68e2f001a3dbfa5f9d049c1ce2fc04518d52",
+      "sample_times_seconds": [
+        2.25,
+        2.5,
+        2.75,
+        3.0,
+        3.25,
+        3.5,
+        3.75,
+        4.0
+      ],
+      "mirror_horizontal": true,
+      "durations_ms": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        220
+      ]
+    },
+    {
+      "state": "running-left",
+      "source": "dsh-pet/assets/webm/原地左转奔跑.webm",
+      "source_sha256": "79882aedd7b77caaacce1a34dece68e2f001a3dbfa5f9d049c1ce2fc04518d52",
+      "sample_times_seconds": [
+        2.25,
+        2.5,
+        2.75,
+        3.0,
+        3.25,
+        3.5,
+        3.75,
+        4.0
+      ],
+      "mirror_horizontal": false,
+      "durations_ms": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        220
+      ]
+    },
+    {
+      "state": "waving",
+      "source": "dsh-pet/assets/webm/点击回应-元气挥手.webm",
+      "source_sha256": "48cd729ccdcf746369942ea954d242e9afdd5643e1dac3827fa5e67450eb8776",
+      "sample_times_seconds": [
+        1.75,
+        2.75,
+        3.5,
+        5.75
+      ],
+      "mirror_horizontal": false,
+      "durations_ms": [
+        140,
+        140,
+        140,
+        280
+      ]
+    },
+    {
+      "state": "jumping",
+      "source": "dsh-pet/assets/webm/点击回应-开心跃动.webm",
+      "source_sha256": "86dcb0c3dd7b651de9c107e927d57a5c4224599101706dbdcc782fa48bcd0ad7",
+      "sample_times_seconds": [
+        3.0,
+        3.5,
+        4.25,
+        6.0,
+        6.5
+      ],
+      "mirror_horizontal": false,
+      "durations_ms": [
+        140,
+        140,
+        140,
+        140,
+        280
+      ]
+    },
+    {
+      "state": "failed",
+      "source": "dsh-pet/assets/webm/工作状态-垂头叹气冒汗.webm",
+      "source_sha256": "ab00c844e62221905574b4c070e0d7b6fa14fb2afa1064c27a160f10e25f7196",
+      "sample_times_seconds": [
+        1.5,
+        2.0,
+        2.25,
+        2.5,
+        3.0,
+        3.5,
+        4.25,
+        4.75
+      ],
+      "mirror_horizontal": false,
+      "durations_ms": [
+        140,
+        140,
+        140,
+        140,
+        140,
+        140,
+        140,
+        240
+      ]
+    },
+    {
+      "state": "waiting",
+      "source": "dsh-pet/assets/webm/工作状态-原地踱步张望.webm",
+      "source_sha256": "a56c17ef901fa531324a46a04def2381f65922d319ec83dadde34d2a4669e411",
+      "sample_times_seconds": [
+        4.5,
+        5.0,
+        5.5,
+        6.0,
+        6.5,
+        7.0
+      ],
+      "mirror_horizontal": false,
+      "durations_ms": [
+        150,
+        150,
+        150,
+        150,
+        150,
+        260
+      ]
+    },
+    {
+      "state": "running",
+      "source": "dsh-pet/assets/webm/工作状态-忙碌点按.webm",
+      "source_sha256": "b5d702e0c04adb7b255ac702001c24da36c8bf95efc891f693f4976986ab2435",
+      "sample_times_seconds": [
+        1.75,
+        2.0,
+        2.25,
+        2.5,
+        2.75,
+        2.0
+      ],
+      "mirror_horizontal": false,
+      "durations_ms": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        220
+      ]
+    },
+    {
+      "state": "review",
+      "source": "dsh-pet/assets/webm/工作状态-清点归档.webm",
+      "source_sha256": "8c84f58f3a9e7b912e1cbfd89f77eb3652053fc9b2844295c8440cb636305d3b",
+      "sample_times_seconds": [
+        2.5,
+        2.75,
+        3.0,
+        3.25,
+        4.0,
+        4.5
+      ],
+      "mirror_horizontal": false,
+      "durations_ms": [
+        150,
+        150,
+        150,
+        150,
+        150,
+        280
+      ]
+    }
+  ],
+  "spritesheet_sha256": "75525c8d45478b3e5e69f3a38d730ba743a0d17356a696c750976db398866864",
+  "limitations": [
+    "9 native animations; original DSH menus and services are not ported",
+    "No 16-direction gaze: original source does not contain authored gaze cells"
+  ]
+}

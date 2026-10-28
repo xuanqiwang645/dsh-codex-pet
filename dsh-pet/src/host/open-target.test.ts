@@ -1,5 +1,5 @@
 /**
- * 菜单首项按宿主形态自动分派的契约测试（宿主 = DSH 桌面应用 / dsh web / 独立模式）。
+ * 菜单首项按宿主形态自动分派的契约测试（DSH 桌面应用 / dsh web / 独立模式 / Codex 配套应用）。
  *
  * 需求：三种形态下同一个工具项要有三种去向与文案——桌面应用「打开软件」（把主窗口叫回前台）、
  * 独立模式「打开 AI 设置」（本机设置页）、dsh web「打开网站」（DSH 站点）。
@@ -76,12 +76,12 @@ describe('装配接线：宿主注入 → helper 解析 → 渲染端文案', ()
     );
   });
 
-  test('helper 主进程：三态解析，未注入回落 web（旧行为）', () => {
+  test('helper 主进程：Codex 第四态与原三态并存，未注入回落 web', () => {
     assert.ok(
-      /const OPEN_TARGET_RAW = process\.env\.DSH_PET_OPEN_TARGET;\s*const OPEN_TARGET = OPEN_TARGET_RAW === 'desktop' \|\| OPEN_TARGET_RAW === 'standalone' \? OPEN_TARGET_RAW : 'web'/.test(
+      /const OPEN_TARGET_RAW = process\.env\.DSH_PET_OPEN_TARGET;\s*const OPEN_TARGET = \['desktop', 'standalone', 'codex'\]\.includes\(OPEN_TARGET_RAW\) \? OPEN_TARGET_RAW : 'web'/.test(
         main,
       ),
-      "非 desktop/standalone 一律回落 'web'（手写 start-desktop 无该变量时行为不得变）",
+      "Codex 为显式第四态；无效值仍回落 'web'，原 desktop/standalone 路径保留",
     );
     assert.ok(/openTarget: OPEN_TARGET/.test(main), '形态要沿窗口 query 透到渲染端（文案在那里决定）');
     assert.ok(/shell\.openExternal\('dsh:\/\/open'\)/.test(main), '桌面宿主必须走 dsh://open 唤起应用窗口');
@@ -99,16 +99,16 @@ describe('装配接线：宿主注入 → helper 解析 → 渲染端文案', ()
     );
   });
 
-  test('helper 渲染端：三态文案查表，动作名不变', () => {
+  test('helper 渲染端：四态文案查表，原动作名不变', () => {
     assert.ok(
-      /const OPEN_TARGET_RAW = params\.get\('openTarget'\);\s*const OPEN_TARGET = OPEN_TARGET_RAW === 'desktop' \|\| OPEN_TARGET_RAW === 'standalone' \? OPEN_TARGET_RAW : 'web'/.test(
+      /const OPEN_TARGET_RAW = params\.get\('openTarget'\);\s*const OPEN_TARGET = \['desktop', 'standalone', 'codex'\]\.includes\(OPEN_TARGET_RAW\) \? OPEN_TARGET_RAW : 'web'/.test(
         constants,
       ),
-      "constants.js 必须从 query 读三态且默认 'web'",
+      "constants.js 必须从 query 读取四态且默认 'web'",
     );
     assert.ok(
-      /\{ desktop: '打开软件', standalone: '打开 AI 设置', web: '打开网站' \}/.test(sprite),
-      '三种形态必须有三种文案，web 不得再显示「打开 AI 设置」',
+      /\{ desktop: '打开软件', standalone: '打开 AI 设置', codex: '打开 Codex', web: '打开网站' \}/.test(sprite),
+      'Codex 显示「打开 Codex」，原三态文案保留',
     );
     assert.ok(
       /label: OPEN_LABEL\[OPEN_TARGET\],\s*action: 'open-site'/.test(sprite),
@@ -116,10 +116,10 @@ describe('装配接线：宿主注入 → helper 解析 → 渲染端文案', ()
     );
   });
 
-  test('独立模式：App 显式标 standalone，CLI 由地址判定，不另注入形态', () => {
+  test('Codex App 显式标 codex，原 CLI 仍由地址判定', () => {
     assert.ok(
-      /process\.env\.DSH_PET_OPEN_TARGET = 'standalone'/.test(appMain),
-      '独立 App 不经 spawn，必须自己把形态标成 standalone（否则回落 web，文案又变回「打开网站」）',
+      /process\.env\.DSH_PET_OPEN_TARGET = 'codex'/.test(appMain),
+      'Codex App 不经 spawn，必须自己把形态标成 codex',
     );
     assert.ok(
       !/DSH_PET_OPEN_TARGET/.test(standaloneContext),

@@ -1,0 +1,2 @@
+db693ae6f4bb502ac4c37cb551a2965c055ac2bb9c6a36b9d33a6acd98366c4a  dsh-codex-companion-0.4.0-codex.1-macos-arm64.zip
+619f4ac2e5c8fe7aa4ad99a711a0451db7a0071a2801a3f910ce29baba09b5ce  dsh-native-pet-1.0.0.zip
