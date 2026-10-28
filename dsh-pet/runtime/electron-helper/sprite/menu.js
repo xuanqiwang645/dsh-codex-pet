@@ -33,10 +33,9 @@ Object.assign(PetSprite.prototype, {
       { label: '碎碎念', action: 'whisper' },
       { label: '对话', action: 'chat', hint: S.CHAT_HOTKEY_HINT },
       { label: '回到初始位置', action: 'home' },
-      // 显示位置（仅网页/仅桌面/两者/都不）：改这只宠物的 display 配置，由宿主重载生效。
-      // 与浏览器端注入同一份子菜单，两端文案与取值不会漂移。不就地开关窗：窗口是进程启动时按
-      // DSH_PET_PETS 一次性建的，就地增删既改不了磁盘配置也改不了窗口数量。
-      S.displayMenuBranch(),
+      // Codex 交互版只提供桌面宠物，隐藏与恢复由菜单栏的宠物勾选项承担。
+      // DSH 宿主仍复用网页与桌面的共享显示位置菜单。
+      ...(OPEN_TARGET === 'codex' ? [] : [S.displayMenuBranch()]),
       // 重载配置：请宿主重启桌面 Helper，全部窗口按最新配置重建。放在最后——它是维护动作。
       { label: '重载配置', action: 'reload' },
     );
@@ -114,6 +113,7 @@ Object.assign(PetSprite.prototype, {
       return;
     }
     if (leaf.action === 'set-display') {
+      if (OPEN_TARGET === 'codex') return;
       this.setPetDisplay(leaf.display); // 改这只宠物的显示位置：写 display 配置，由宿主重载生效
       return;
     }
@@ -261,7 +261,7 @@ Object.assign(PetSprite.prototype, {
   // 渲染端不做推导（当前状态以配置为准）。不就地开关窗：窗口是进程启动时按 DSH_PET_PETS 一次性建的。
   // 与 reloadDesktop 同一处境：选「仅网页/都不」时本进程会在重载中被换掉，故不 await、不重试。
   setPetDisplay(display) {
-    if (!display) return;
+    if (!display || OPEN_TARGET === 'codex') return;
     fetch(BASE + '/pet-display', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },

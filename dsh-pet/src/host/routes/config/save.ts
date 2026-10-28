@@ -45,6 +45,9 @@ async function saveUserLayer(deps: PetRouteDeps, input: RouteInput): Promise<Rou
     const existing = readUserConfig(configPaths);
     const clean = saveUserConfig(parsed, existing);
     if (!clean) {
+      if (process.env.DSH_PET_COMPANION === '1') {
+        return failResult('bad-request', '宠物配置非法；Codex 交互版的 display 仅支持 desktop / none。');
+      }
       return failResult(
         'bad-request',
         'invalid pet config: expected { pets:[{name?,id,size,balanceEnabled,display,position:{corner,marginX,marginY}}] }（id 为非空字符串且去除首尾空白后唯一；display 为 web/desktop/both/none 之一；可选顶层 notificationsEnabled / whisperImageEnabled / chatImageEnabled / trayEnabled 布尔；可选宠物布尔 whisperEnabled / workStatusEnabled / fixedEnabled）',

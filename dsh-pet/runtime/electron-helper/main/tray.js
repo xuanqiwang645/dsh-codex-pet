@@ -20,6 +20,7 @@ const path = require('node:path');
  * @param deps.callbackUrl - bridge 回调地址（建托盘前要等它就绪）。
  * @param deps.isBridge - 是否由宿主以 bridge 模式拉起。
  * @param deps.appMode - 是否同进程应用模式。
+ * @param deps.openTarget - Codex 交互版只支持桌面显示与隐藏。
  * @param deps.petRoute - 宠物路由前缀。
  * @param deps.platform - 托盘平台差异（tray-platform.js 的判定结果）。
  * @param deps.helperDir - runtime/electron-helper 的绝对目录（图标在包的 assets/ 下）。
@@ -33,15 +34,29 @@ function createTray({
   callbackUrl,
   isBridge,
   appMode,
+  openTarget,
   petRoute,
   platform,
   helperDir,
 }) {
-  const isDesktopDisplay = (display) => display === 'desktop' || display === 'both';
+  const desktopOnly = openTarget === 'codex';
+  // 老版 Codex 的 web/both 配置会恢复到桌面；托盘以同一语义显示勾选状态。
+  const isDesktopDisplay = (display) =>
+    display === 'desktop' || display === 'both' || (desktopOnly && display === 'web');
 
   /** 翻转「桌面位」：both↔web、desktop↔none——浏览器位保持不动，因此不制造新的单向门 */
   const toggleDisplay = (display) =>
-    display === 'both' ? 'web' : display === 'web' ? 'both' : display === 'desktop' ? 'none' : 'desktop';
+    desktopOnly
+      ? isDesktopDisplay(display)
+        ? 'none'
+        : 'desktop'
+      : display === 'both'
+        ? 'web'
+        : display === 'web'
+          ? 'both'
+          : display === 'desktop'
+            ? 'none'
+            : 'desktop';
 
   let tray = null;
 

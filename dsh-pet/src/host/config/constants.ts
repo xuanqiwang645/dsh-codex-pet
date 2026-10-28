@@ -18,6 +18,13 @@ export const CORNER_SET: ReadonlySet<string> = new Set(CORNERS);
  *  唯一来源是 shared/config 的 PET_DISPLAYS，读写两侧必须同一份规则，不在路由里另写一个 Set。 */
 export const PET_DISPLAY_SET: ReadonlySet<string> = new Set(PET_DISPLAYS);
 
+/** Codex has a desktop surface only; keep the upstream display modes for DSH. */
+export function isWritablePetDisplay(value: string): boolean {
+  return (
+    PET_DISPLAY_SET.has(value) && (process.env.DSH_PET_COMPANION !== '1' || value === 'desktop' || value === 'none')
+  );
+}
+
 /** font.family 白名单：唯一来源是 shared/fonts 的 FONT_PRESETS，宿主只取 id 做校验。 */
 export const FONT_FAMILY_SET: ReadonlySet<string> = new Set(FONT_PRESETS.map((preset) => preset.id));
 

@@ -220,6 +220,7 @@ const tray = createTray({
   callbackUrl: bridge.callbackUrl,
   isBridge: BRIDGE,
   appMode: APP_MODE,
+  openTarget: OPEN_TARGET,
   petRoute: PET_ROUTE,
   platform: TRAY_PLATFORM,
   helperDir: __dirname,

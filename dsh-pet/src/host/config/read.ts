@@ -95,6 +95,16 @@ export function readAllConfig(paths: ConfigPaths): Record<string, Record<string,
     }
     out[file.prefix] = mergeEntry(filePetBase, parsed, file.prefix + '-config.json', basePets, seenIds);
   }
+  // Recover pets sent to the obsolete web surface without rewriting user files.
+  // Preserve an explicit "none": hiding via the menu bar remains supported.
+  if (process.env.DSH_PET_COMPANION === '1') {
+    for (const conf of Object.values(out)) {
+      if (!Array.isArray(conf.pets)) continue;
+      conf.pets = (conf.pets as Record<string, unknown>[]).map((pet) =>
+        pet.display === 'web' || pet.display === 'both' ? { ...pet, display: 'desktop' } : pet,
+      );
+    }
+  }
   return out;
 }
 

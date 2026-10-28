@@ -1,35 +1,35 @@
 {
-  "version": "0.4.0-codex.1",
-  "sourceCommit": "2b72c1bd246e851c5e1b4890db834aba3452af43",
+  "version": "0.4.1-codex.1",
+  "upstreamCommit": "2b72c1bd246e851c5e1b4890db834aba3452af43",
   "installedApp": "~/Applications/DSH Codex Pet.app",
   "signatureVerified": true,
   "installedRuntimeMatchesBuild": {
     "lib/app.js": true,
     "runtime/electron-helper/shared-core.js": true,
     "runtime/electron-helper/sprite/menu.js": true,
-    "runtime/electron-helper/main/ipc.js": true
+    "runtime/electron-helper/main/tray.js": true,
+    "runtime/electron-helper/main.js": true
   },
   "nativePetPreserved": true,
+  "existingDataPreserved": {
+    "main-config.jsonc": true,
+    "memory.json": true
+  },
   "targetedTests": {
-    "passed": 59,
+    "passed": 196,
     "failed": 0
   },
   "typescriptSourceCheck": "pass",
   "typescriptTestsCheck": "pass",
   "liveChecks": {
-    "realCodexChat": "我是鲸鱼娘，陪你闲聊的蓝发小女仆～",
-    "uiChatSentAndReceived": "收到",
-    "feedingPlaybackEnded": true,
-    "feedingMenuPath": "动作 → 吃什么 → 吃白饭",
-    "feedingAnimationVisuallyVerified": true,
-    "quotaAndSettingsUiVerified": true,
-    "automaticWhispersDefaultOff": true,
-    "unauthorizedRequestRejected": true,
-    "reloadStartedNewProcess": true,
-    "quitCapability": true
+    "legacyWebConfigLoadsAsDesktop": true,
+    "animatedPetVisuallyVerified": true,
+    "contextMenuHasNoDisplayPositionBranch": true,
+    "removedModeRequestRejected": true,
+    "appLeftRunning": true
   },
-  "dataLocation": "~/Library/Application Support/DSH Codex Pet/data",
+  "payloadSha256": "04ec73b88e4cb2a20f43b36367b0f242fcd6eaeb4ee45203a8820e487b5740a1",
   "chatInput": "text-only",
   "transport": "local official codex app-server using existing ChatGPT login",
-  "payloadSha256": "63b273be1a915a5dd14086136766e225a896bcfbf1f7f3fd1a7db0f0282a9616"
+  "dataLocation": "~/Library/Application Support/DSH Codex Pet/data"
 }

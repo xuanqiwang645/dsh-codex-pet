@@ -8,7 +8,7 @@
 import { defaultLog } from '../log-file.ts';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { CORNER_SET, isValidPetId, PET_DISPLAY_SET } from './constants.ts';
+import { CORNER_SET, isValidPetId, isWritablePetDisplay } from './constants.ts';
 import type { ConfigPaths } from './constants.ts';
 import { fontValid, modelSelectionValid, physicsValid, topFieldValid } from './validate.ts';
 
@@ -54,7 +54,7 @@ export function saveUserConfig(
     const fixedEnabled = pp.fixedEnabled;
     if (fixedEnabled !== undefined && typeof fixedEnabled !== 'boolean') return null;
     const display = String(pp.display ?? '');
-    if (!PET_DISPLAY_SET.has(display)) return null;
+    if (!isWritablePetDisplay(display)) return null;
     const pos = pp.position && typeof pp.position === 'object' ? (pp.position as Record<string, unknown>) : {};
     const corner = String(pos.corner ?? '');
     if (!CORNER_SET.has(corner)) return null;

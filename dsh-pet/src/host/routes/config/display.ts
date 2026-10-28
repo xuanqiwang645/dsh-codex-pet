@@ -6,7 +6,7 @@
  * 不解析整段 pets[]，不负责配置读取的合并（归 ../../config）。
  * @module dsh-pet/src/host/routes/config/display
  */
-import { PET_DISPLAY_SET, findPetInstance, readAllConfig, saveUserConfig } from '../../config.ts';
+import { isWritablePetDisplay, findPetInstance, readAllConfig, saveUserConfig } from '../../config.ts';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { type RouteResult } from '../../http.ts';
 import type { PetRouteDeps, RouteInput } from '../types.ts';
@@ -31,8 +31,9 @@ export async function setPetDisplay(deps: PetRouteDeps, input: RouteInput): Prom
   const nextDisplay = String(payload.display ?? '');
   // id 必填（与 9 条 `?pet=` 路由同一对词汇：没给 → pet-required；不存在 → unknown-pet）
   if (!petId) return failResult('pet-required', 'pet 必填：要指定操作哪只桌宠');
-  if (!PET_DISPLAY_SET.has(nextDisplay)) {
-    return failResult('bad-request', `display 必须是 web / desktop / both / none：${nextDisplay}`);
+  if (!isWritablePetDisplay(nextDisplay)) {
+    const choices = process.env.DSH_PET_COMPANION === '1' ? 'desktop / none' : 'web / desktop / both / none';
+    return failResult('bad-request', `display 必须是 ${choices}：${nextDisplay}`);
   }
   let merged: Record<string, Record<string, unknown>>;
   try {
