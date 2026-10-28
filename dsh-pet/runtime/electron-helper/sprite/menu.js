@@ -179,8 +179,8 @@ Object.assign(PetSprite.prototype, {
       });
   },
 
-  // 「对话」菜单：最简输入框（shared 组件）——回车发送后弹窗消失，回复用碎碎念同款显示（说话动画 +
-  // 气泡 10s），只多一步用户输入。记忆经宿主 /chat 读写，同一实例的浏览器与桌面共享。
+  // Codex 使用常驻对话面板，发送后保留输入和回复记录；DSH 仍使用发送后关闭的快速输入框。
+  // 气泡与说话动画继续走原有事件流，记忆统一经宿主 /chat 读写。
   // 弹窗跟随身体命中区 this.hit（桌宠在视频中间，视频框右上角 ≠ 宠物右上角），超出视口自动夹回；
   // 弹窗是窗口内 DOM，期间整窗保持可交互，关闭后恢复命中区穿透。
   showChatFromMenu(image) {
@@ -191,11 +191,13 @@ Object.assign(PetSprite.prototype, {
     }
     // 语音接口同样走 bridge 地址；对话的待播标记由 shared/chat/send 在发送时打
     S.setVoiceBase(BASE);
-    const m = S.mountChatDialog({
+    const mountChat = OPEN_TARGET === 'codex' ? S.mountConversationDialog : S.mountChatDialog;
+    const m = mountChat({
       petId: this.pet.id,
       allowImages: OPEN_TARGET !== 'codex',
       baseUrl: BASE + '/chat',
       surface: 'desktop',
+      ...(OPEN_TARGET === 'codex' ? { onSettings: () => window.petBridge?.openSettings?.() } : {}),
       x: Math.max(4, this.hit.getBoundingClientRect().right + 6),
       y: Math.max(4, this.hit.getBoundingClientRect().top + 6),
       // 拖拽落到宠物身上时直接带着图开弹窗

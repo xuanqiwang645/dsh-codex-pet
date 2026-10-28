@@ -17,6 +17,7 @@ import { apply } from '../host/index.ts';
 import { createFileLogger, setDefaultLogger } from '../host/log-file.ts';
 import { createCodexAi } from '../codex/index.ts';
 import { registerCodexBalance, createCodexQuotaRoute } from '../companion/balance.ts';
+import { createCodexModelsRoute } from '../companion/models.ts';
 import { codexSettingsAssets } from '../companion/settings-page.ts';
 import { configureCompanion } from './companion-bootstrap.ts';
 import { writeStandaloneRuntime } from '../standalone/runtime-state.ts';
@@ -135,6 +136,7 @@ async function boot(): Promise<void> {
   };
   const releaseCodexBalance = registerCodexBalance(() => ai.readRateLimits());
   routes.push(createCodexQuotaRoute(() => ai.readRateLimits()));
+  routes.push(createCodexModelsRoute(() => ai.readModels()));
   const context = createStandaloneContext({
     port: () => port,
     logger,

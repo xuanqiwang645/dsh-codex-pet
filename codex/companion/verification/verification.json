@@ -1,35 +1,44 @@
 {
-  "version": "0.4.1-codex.1",
+  "version": "0.4.2-codex.1",
   "upstreamCommit": "2b72c1bd246e851c5e1b4890db834aba3452af43",
   "installedApp": "~/Applications/DSH Codex Pet.app",
   "signatureVerified": true,
   "installedRuntimeMatchesBuild": {
     "lib/app.js": true,
     "runtime/electron-helper/shared-core.js": true,
-    "runtime/electron-helper/sprite/menu.js": true,
-    "runtime/electron-helper/main/tray.js": true,
-    "runtime/electron-helper/main.js": true
+    "runtime/electron-helper/sprite/menu.js": true
   },
   "nativePetPreserved": true,
-  "existingDataPreserved": {
-    "main-config.jsonc": true,
-    "memory.json": true
-  },
   "targetedTests": {
-    "passed": 196,
+    "passed": 237,
     "failed": 0
   },
   "typescriptSourceCheck": "pass",
   "typescriptTestsCheck": "pass",
   "liveChecks": {
-    "legacyWebConfigLoadsAsDesktop": true,
-    "animatedPetVisuallyVerified": true,
-    "contextMenuHasNoDisplayPositionBranch": true,
-    "removedModeRequestRejected": true,
-    "appLeftRunning": true
+    "version": "0.4.2-codex.1",
+    "modelPickerUiSavedAndEffective": true,
+    "catalogModels": 8,
+    "alternateModelVerified": "gpt-6-luna",
+    "visibleReply": "对话已恢复",
+    "conversationRemainedOpen": true,
+    "recentHistoryLoaded": true,
+    "originalPreferencesRestored": true,
+    "syntheticTestTurnRemoved": true,
+    "existingDataPreserved": {
+      "main-config.jsonc": true,
+      "memory.json": true,
+      "codex-settings.json": true
+    }
   },
-  "payloadSha256": "04ec73b88e4cb2a20f43b36367b0f242fcd6eaeb4ee45203a8820e487b5740a1",
+  "alternateModelRequest": {
+    "selectedModel": "gpt-6-luna",
+    "requestedModel": "gpt-6-luna",
+    "reply": "模型已切换",
+    "completed": true
+  },
+  "payloadSha256": "57b10282b4779f178baefe9a9d4db5eb0389359869d3e2f2bfd1baa7d1d14f43",
   "chatInput": "text-only",
-  "transport": "local official codex app-server using existing ChatGPT login",
-  "dataLocation": "~/Library/Application Support/DSH Codex Pet/data"
+  "dataLocation": "~/Library/Application Support/DSH Codex Pet/data",
+  "transport": "local official codex app-server using existing ChatGPT login"
 }

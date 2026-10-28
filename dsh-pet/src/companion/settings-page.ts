@@ -8,8 +8,10 @@ export const codexSettingsPage = `<!doctype html>
 <p class="hint">这里显示 Codex 套餐额度及重置时间，不是 DeepSeek API 账户金额。</p>
 <div id="quota" aria-live="polite">正在读取额度…</div></section>
 <form id="settings"><section><h2>聊天</h2><label class="check"><input id="enabled" type="checkbox">启用桌宠聊天与手动碎碎念</label>
-<label for="model">模型</label><input id="model" type="text" maxlength="200" placeholder="留空使用 Codex 当前默认模型" spellcheck="false">
-<p class="hint">无需填写密钥。使用已登录 Codex 的模型与套餐额度；自动碎碎念默认关闭。</p>
+<label for="model">回答模型</label><select id="model" aria-describedby="model-current model-status" disabled><option value="">正在读取模型…</option></select>
+<p id="model-current" class="hint" aria-live="polite"></p>
+<div class="actions"><button id="refresh-models" type="button" class="secondary">刷新模型列表</button><span id="model-status" role="status">正在读取模型…</span></div>
+<p class="hint">从本机 Codex 的模型目录选择，保存后用于下一次对话和碎碎念。无需填写密钥；自动碎碎念默认关闭。</p>
 <div class="actions"><button id="check" type="button" class="secondary">检查 Codex 连接</button><span id="connection" role="status"></span></div>
 <label class="check"><input id="automaticWhispers" type="checkbox">开启自动碎碎念</label>
 <p class="hint">默认关闭。开启后会按间隔调用 Codex 并消耗套餐额度；关闭后仍可右键手动碎碎念。</p>
@@ -39,7 +41,7 @@ export const codexSettingsScript = `'use strict';
       headers:{'X-DSH-Pet-Token':token,...(body ? {'Content-Type':'application/json'} : {})},
       ...(body ? {body:JSON.stringify(body)} : {})});
     const data = await response.json().catch(() => ({}));
-    if (!response.ok || data.ok===false) throw new Error(response.status===403 ? '本次打开凭据已失效，请从桌宠右键菜单重新打开设置。' : data.message || '本机服务暂时无法完成请求。');
+    if (!response.ok || data.ok===false) throw new Error(response.status===403 ? '本次打开凭据已失效，请从桌宠右键菜单重新打开设置。' : (typeof data.message==='string'&&data.message)||(typeof data.error==='string'&&data.error)||'本机服务暂时无法完成请求。');
     return data;
   }
   const element = (tag,text,cls) => {const node=document.createElement(tag);if(text)node.textContent=text;if(cls)node.className=cls;return node;};
@@ -64,14 +66,64 @@ export const codexSettingsScript = `'use strict';
     finally {get('refresh-quota').disabled=false;}
   }
   get('refresh-quota').addEventListener('click',quota);
+  let settingsLoaded=false, modelsLoaded=false, modelsLoading=false, saving=false;
+  let models=[], selectedModel='', configuredModel='', effectiveModel='', modelDirty=false, modelsGeneration=0;
+  const modelStatus=(text,error=false)=>{get('model-status').textContent=text;get('model-status').className=error?'error':'';};
+  const modelName=id=>{const model=models.find(item=>item.id===id);return model?(model.name&&model.name!==id?model.name+'（'+id+'）':id):id;};
+  const validModel=()=>selectedModel===''||models.some(item=>item.id===selectedModel);
+  const syncSave=()=>{get('save').disabled=saving||!settingsLoaded||!modelsLoaded||modelsLoading||!validModel();get('model').disabled=saving||!modelsLoaded||modelsLoading;get('refresh-models').disabled=saving||modelsLoading;};
+  function showModelSelection() {
+    const select=get('model');select.replaceChildren();
+    const defaultModel=models.find(item=>item.isDefault===true);
+    const follow=element('option',defaultModel?'跟随 Codex 默认（'+modelName(defaultModel.id)+'）':'跟随 Codex 默认');follow.value='';select.append(follow);
+    for(const model of models){const option=element('option',modelName(model.id));option.value=model.id;select.append(option);}
+    if(selectedModel&&!models.some(item=>item.id===selectedModel)) {
+      const missing=element('option','目前不可用：'+selectedModel);missing.value=selectedModel;missing.disabled=true;select.append(missing);
+    }
+    select.value=selectedModel;select.disabled=!modelsLoaded||modelsLoading;
+    get('model-current').textContent=effectiveModel?'当前回答模型：'+modelName(effectiveModel):'当前没有可用的回答模型。';
+    if(modelsLoaded) {
+      if(!validModel())modelStatus('已保存模型目前不可用，请选择其他模型后保存。',true);
+      else modelStatus(modelDirty?'模型选择尚未保存。保存后用于下一次对话。':'选择后保存设置，无需重启桌宠。');
+    }
+    syncSave();
+  }
+  async function loadModels() {
+    const generation=++modelsGeneration;
+    modelsLoading=true;get('refresh-models').disabled=true;get('model').disabled=true;modelStatus('正在读取模型…');syncSave();
+    try {
+      const data=await request('/companion/models');
+      if(generation!==modelsGeneration)return;
+      models=Array.isArray(data.models)?data.models.filter(item=>item&&typeof item.id==='string'&&item.id):[];
+      configuredModel=typeof data.configuredModel==='string'?data.configuredModel:'';
+      effectiveModel=typeof data.effectiveModel==='string'?data.effectiveModel:'';
+      if(!modelDirty)selectedModel=configuredModel;
+      modelsLoaded=data.connected===true&&models.length>0;
+      modelsLoading=false;showModelSelection();
+      if(data.connected!==true)modelStatus('尚未连接 Codex。请先登录，再刷新模型列表。',true);
+      else if(!models.length)modelStatus('Codex 暂未提供可选择的模型，请稍后刷新列表。',true);
+    }catch(error){
+      if(generation!==modelsGeneration)return;
+      modelsLoaded=false;modelStatus('模型列表读取失败：'+error.message+' 可点击“刷新模型列表”重试。',true);
+    }finally{
+      if(generation===modelsGeneration){modelsLoading=false;get('refresh-models').disabled=false;get('model').disabled=!modelsLoaded;syncSave();}
+    }
+  }
+  get('refresh-models').addEventListener('click',loadModels);
+  get('model').addEventListener('change',()=>{if(saving||!modelsLoaded||modelsLoading)return;selectedModel=get('model').value;modelDirty=selectedModel!==configuredModel;showModelSelection();});
   get('settings').addEventListener('submit',async event => {
-    event.preventDefault();get('save').disabled=true;status('正在保存…');
+    event.preventDefault();
+    if(saving||!settingsLoaded||!modelsLoaded||modelsLoading||!validModel()){status('请先读取模型列表，并选择当前可用的模型。',true);return;}
+    saving=true;syncSave();status('正在保存…');
     try {
       const interval=Number(get('whisperIntervalSec').value);
       if(!Number.isInteger(interval)||interval<300||interval>86400)throw new Error('碎碎念间隔必须是 300–86400 秒的整数。');
-      await request('/standalone-ai/settings','POST',{enabled:get('enabled').checked,model:get('model').value.trim(),automaticWhispers:get('automaticWhispers').checked,whisperIntervalSec:interval});status('已保存到本机。');
+      await request('/standalone-ai/settings','POST',{enabled:get('enabled').checked,model:selectedModel,automaticWhispers:get('automaticWhispers').checked,whisperIntervalSec:interval});
+      configuredModel=selectedModel;modelDirty=false;
+      status('已保存。下一次对话和碎碎念使用所选模型。');
+      await loadModels();
     }
-    catch(error){status(error.message,true);}finally{get('save').disabled=false;}
+    catch(error){status(error.message,true);}finally{saving=false;syncSave();}
   });
   let mainPets=[];
   const petStatus=(text,error=false)=>{get('pet-status').textContent=text;get('pet-status').className=error?'error':'';};
@@ -105,11 +157,12 @@ export const codexSettingsScript = `'use strict';
   });
   get('check').addEventListener('click',async () => {
     get('check').disabled=true;get('connection').textContent='正在检查…';
-    try {const data=await request('/standalone-ai/test','POST',{});get('connection').textContent=data.message || (data.ok?'连接正常':'暂时无法连接');}
+    try {const data=await request('/standalone-ai/test','POST',{});get('connection').textContent=data.message || (data.ok?'连接正常':'暂时无法连接');await loadModels();}
     catch(error){get('connection').textContent=error.message;}finally{get('check').disabled=false;}
   });
-  if(!token){status('请从桌宠右键菜单打开本页。',true);get('quota').textContent='尚未连接本机服务';get('refresh-quota').disabled=true;get('check').disabled=true;return;}
-  request('/standalone-ai/settings').then(data=>{get('enabled').checked=data.enabled===true;get('model').value=data.model || '';get('automaticWhispers').checked=data.automaticWhispers===true;get('whisperIntervalSec').value=String(data.whisperIntervalSec||300);get('save').disabled=false;status('设置仅保存在本机。');}).catch(error=>status(error.message,true));
+  if(!token){status('请从桌宠右键菜单打开本页。',true);get('quota').textContent='尚未连接本机服务';get('refresh-quota').disabled=true;get('refresh-models').disabled=true;get('check').disabled=true;return;}
+  request('/standalone-ai/settings').then(data=>{get('enabled').checked=data.enabled===true;get('automaticWhispers').checked=data.automaticWhispers===true;get('whisperIntervalSec').value=String(data.whisperIntervalSec||300);settingsLoaded=true;syncSave();status('设置仅保存在本机。');}).catch(error=>{settingsLoaded=false;syncSave();status(error.message,true);});
+  loadModels();
   request('/dsh-pet-7340/config').then(data=>{populatePets(data);if(mainPets.length)petStatus('大小和固定设置重启后生效。');}).catch(error=>petStatus(error.message,true));
   quota();
 })();`;

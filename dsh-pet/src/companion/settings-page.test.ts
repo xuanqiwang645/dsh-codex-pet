@@ -13,6 +13,9 @@ test('Codex settings has no credential or endpoint inputs and renders dynamic va
   assert.match(codexSettingsScript, /textContent/);
   assert.ok(!codexSettingsScript.includes('innerHTML'));
   assert.match(codexSettingsPage, /min="300"/);
+  assert.match(codexSettingsPage, /<select id="model"/);
+  assert.ok(!codexSettingsPage.includes('<input id="model"'));
+  assert.match(codexSettingsPage, /刷新模型列表/);
   assert.match(codexSettingsPage, /消耗套餐额度/);
   assert.match(codexSettingsPage, /关闭后仍可右键手动碎碎念/);
 });
@@ -24,13 +27,17 @@ interface PageElement {
   textContent: string;
   className: string;
   dataset: Record<string, string>;
+  children: PageElement[];
   listeners: Record<string, (event: { preventDefault(): void }) => Promise<void> | void>;
   addEventListener(name: string, listener: PageElement['listeners'][string]): void;
   append(...values: unknown[]): void;
   replaceChildren(): void;
 }
 
-async function runPage(fetcher: (path: string, options: { method: string; body?: string }) => unknown) {
+async function runPage(
+  fetcher: (path: string, options: { method: string; body?: string }) => unknown,
+  statusFor: (path: string, options: { method: string; body?: string }) => number = () => 200,
+) {
   const elements = new Map<string, PageElement>();
   const makeElement = (): PageElement => ({
     value: '',
@@ -39,12 +46,17 @@ async function runPage(fetcher: (path: string, options: { method: string; body?:
     textContent: '',
     className: '',
     dataset: {},
+    children: [],
     listeners: {},
     addEventListener(name, listener) {
       this.listeners[name] = listener;
     },
-    append() {},
-    replaceChildren() {},
+    append(...values) {
+      this.children.push(...(values as PageElement[]));
+    },
+    replaceChildren() {
+      this.children = [];
+    },
   });
   const get = (id: string) => {
     if (!elements.has(id)) elements.set(id, makeElement());
@@ -56,20 +68,35 @@ async function runPage(fetcher: (path: string, options: { method: string; body?:
     history: { replaceState() {} },
     location: { hash: '#token=local-test-token', pathname: '/standalone-ai/' },
     document: { getElementById: get, createElement: makeElement },
-    fetch: async (path: string, options: { method: string; body?: string }) => ({
-      ok: true,
-      status: 200,
-      json: async () => fetcher(path, options),
-    }),
+    fetch: async (path: string, options: { method: string; body?: string }) => {
+      const value = await fetcher(path, options);
+      const status = statusFor(path, options);
+      return { ok: status >= 200 && status < 300, status, json: async () => value };
+    },
   });
   await new Promise<void>((resolve) => setImmediate(resolve));
   return get;
 }
 
+const modelCatalog = (configuredModel = '') => ({
+  ok: true,
+  connected: true,
+  configuredModel,
+  effectiveModel: configuredModel || 'catalog-default',
+  models: [
+    { id: 'catalog-default', name: 'Default model', isDefault: true },
+    { id: 'catalog-alternate', name: 'Alternate model', isDefault: false },
+  ],
+});
+const settings = { enabled: true, model: 'catalog-default', automaticWhispers: false, whisperIntervalSec: 300 };
+const flush = () => new Promise<void>((resolve) => setImmediate(resolve));
+const event = { preventDefault() {} };
+
 test('settings submits explicit auto-whisper choice and rejects intervals below 300 seconds', async () => {
   const writes: Record<string, unknown>[] = [];
   const get = await runPage((path, options) => {
     if (path === '/companion/quota') return { ok: true, buckets: [] };
+    if (path === '/companion/models') return modelCatalog();
     if (path === '/dsh-pet-7340/config') return { main: { pets: [] } };
     if (options.method === 'POST') {
       writes.push(JSON.parse(options.body!));
@@ -90,6 +117,27 @@ test('settings submits explicit auto-whisper choice and rejects intervals below 
   assert.match(get('status').textContent, /300–86400/);
 });
 
+test('settings errors show safe string messages from both JSON response shapes', async () => {
+  for (const [payload, expected] of [
+    [{ error: '请等待当前对话完成后再修改设置。' }, '请等待当前对话完成后再修改设置。'],
+    [{ message: '此模型不在当前 Codex 可用清单中。' }, '此模型不在当前 Codex 可用清单中。'],
+    [{ error: { raw: 'not a public message' } }, '本机服务暂时无法完成请求。'],
+  ] as const) {
+    const get = await runPage(
+      (path, options) => {
+        if (path === '/companion/models') return modelCatalog();
+        if (path === '/companion/quota') return { ok: true, buckets: [] };
+        if (path === '/dsh-pet-7340/config') return { main: { pets: [] } };
+        return options.method === 'POST' ? payload : settings;
+      },
+      (_path, options) => (options.method === 'POST' ? 400 : 200),
+    );
+    await get('settings').listeners.submit(event);
+    assert.equal(get('status').textContent, expected);
+    assert.equal(get('status').dataset.error, 'true');
+  }
+});
+
 test('appearance save re-reads current pets and preserves every unrelated pet field', async () => {
   let reads = 0;
   let written: { pets: Array<Record<string, unknown>> } | undefined;
@@ -103,6 +151,7 @@ test('appearance save re-reads current pets and preserves every unrelated pet fi
   const currentOther = { id: 'other', name: '刚改过名字', size: 300, fixedEnabled: false, display: 'desktop' };
   const get = await runPage((path, options) => {
     if (path === '/companion/quota') return { ok: true, buckets: [] };
+    if (path === '/companion/models') return modelCatalog();
     if (path === '/dsh-pet-7340/config' && options.method === 'PUT') {
       written = JSON.parse(options.body!);
       return { main: written };
@@ -122,6 +171,125 @@ test('appearance save re-reads current pets and preserves every unrelated pet fi
   assert.deepEqual(written?.pets[0].position, oldPet.position);
   assert.deepEqual(written?.pets[1], currentOther);
   assert.match(get('pet-status').textContent, /重启桌宠后生效/);
+});
+
+test('model picker lists discovered models, saves a nondefault choice, and can return to follow-default', async () => {
+  let selected = '';
+  const writes: Record<string, unknown>[] = [];
+  const get = await runPage((path, options) => {
+    if (path === '/companion/models') return modelCatalog(selected);
+    if (path === '/companion/quota') return { ok: true, buckets: [] };
+    if (path === '/dsh-pet-7340/config') return { main: { pets: [] } };
+    if (options.method === 'POST') {
+      const body = JSON.parse(options.body!);
+      writes.push(body);
+      selected = body.model;
+      return { ...settings, model: selected };
+    }
+    return settings;
+  });
+  assert.equal(get('model').value, '', 'effective default from settings must not pin a model');
+  assert.deepEqual(
+    get('model').children.map((item) => item.value),
+    ['', 'catalog-default', 'catalog-alternate'],
+  );
+  assert.equal(get('save').disabled, false);
+  get('model').value = 'catalog-alternate';
+  await get('model').listeners.change(event);
+  assert.match(get('model-status').textContent, /尚未保存/);
+  await get('settings').listeners.submit(event);
+  assert.equal(writes[0].model, 'catalog-alternate');
+  assert.equal(get('model').value, 'catalog-alternate');
+  assert.match(get('model-current').textContent, /Alternate model.*catalog-alternate/);
+  assert.match(get('status').textContent, /下一次对话/);
+  get('model').value = '';
+  await get('model').listeners.change(event);
+  await get('settings').listeners.submit(event);
+  assert.equal(writes[1].model, '');
+  assert.match(get('model-current').textContent, /Default model/);
+});
+
+test('model-list failure blocks saving and a retry restores the existing model without clearing it', async () => {
+  let reads = 0,
+    writes = 0;
+  const get = await runPage((path, options) => {
+    if (path === '/companion/models') {
+      if (++reads === 1) throw new Error('temporary catalog failure');
+      return modelCatalog('catalog-alternate');
+    }
+    if (path === '/companion/quota') return { ok: true, buckets: [] };
+    if (path === '/dsh-pet-7340/config') return { main: { pets: [] } };
+    if (options.method === 'POST') writes++;
+    return settings;
+  });
+  assert.equal(get('save').disabled, true);
+  assert.equal(get('model').disabled, true);
+  assert.match(get('model-status').textContent, /读取失败.*刷新模型列表/);
+  await get('settings').listeners.submit(event);
+  assert.equal(writes, 0);
+  await get('refresh-models').listeners.click(event);
+  assert.equal(get('model').value, 'catalog-alternate');
+  assert.equal(get('save').disabled, false);
+});
+
+test('unavailable saved models remain visible until the user explicitly chooses a replacement', async () => {
+  const writes: Record<string, unknown>[] = [];
+  const get = await runPage((path, options) => {
+    if (path === '/companion/models') return { ...modelCatalog('retired-model'), effectiveModel: '' };
+    if (path === '/companion/quota') return { ok: true, buckets: [] };
+    if (path === '/dsh-pet-7340/config') return { main: { pets: [] } };
+    if (options.method === 'POST') writes.push(JSON.parse(options.body!));
+    return settings;
+  });
+  assert.equal(get('model').value, 'retired-model');
+  assert.equal(get('model').children[get('model').children.length - 1]?.disabled, true);
+  assert.match(get('model-status').textContent, /已保存模型目前不可用/);
+  assert.equal(get('save').disabled, true);
+  await get('settings').listeners.submit(event);
+  assert.equal(writes.length, 0);
+  get('model').value = 'catalog-alternate';
+  await get('model').listeners.change(event);
+  assert.equal(get('save').disabled, false);
+  await get('settings').listeners.submit(event);
+  assert.equal(writes[0].model, 'catalog-alternate');
+});
+
+test('late settings reads and catalog refreshes preserve an unsaved explicit model choice', async () => {
+  let finishSettings: (value: typeof settings) => void = () => {};
+  const pendingSettings = new Promise<typeof settings>((resolve) => {
+    finishSettings = resolve;
+  });
+  const get = await runPage((path) => {
+    if (path === '/companion/models') return modelCatalog();
+    if (path === '/companion/quota') return { ok: true, buckets: [] };
+    if (path === '/dsh-pet-7340/config') return { main: { pets: [] } };
+    return pendingSettings;
+  });
+  assert.equal(get('save').disabled, true);
+  get('model').value = 'catalog-alternate';
+  await get('model').listeners.change(event);
+  finishSettings(settings);
+  await flush();
+  assert.equal(get('model').value, 'catalog-alternate');
+  assert.equal(get('save').disabled, false);
+  await get('refresh-models').listeners.click(event);
+  assert.equal(get('model').value, 'catalog-alternate');
+  assert.match(get('model-status').textContent, /尚未保存/);
+});
+
+test('disconnected accounts and empty catalogs explain why selection is unavailable', async () => {
+  for (const connected of [true, false]) {
+    const get = await runPage((path) => {
+      if (path === '/companion/models')
+        return { ok: true, connected, models: [], configuredModel: 'kept-model', effectiveModel: '' };
+      if (path === '/companion/quota') return { ok: true, buckets: [] };
+      if (path === '/dsh-pet-7340/config') return { main: { pets: [] } };
+      return settings;
+    });
+    assert.equal(get('model').value, 'kept-model');
+    assert.equal(get('save').disabled, true);
+    assert.match(get('model-status').textContent, connected ? /暂未提供/ : /尚未连接/);
+  }
 });
 
 test('custom settings assets and quota use the existing authenticated request boundary', async () => {

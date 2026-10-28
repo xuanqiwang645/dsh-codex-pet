@@ -29,11 +29,18 @@ export interface CodexPublicSettings extends StandaloneAiPublicSettings {
   connected: boolean;
   chatSafety: 'restricted-read-only';
 }
+export interface CodexModelCatalog {
+  connected: boolean;
+  configuredModel: string;
+  effectiveModel: string;
+  models: Array<Pick<CodexModel, 'id' | 'name' | 'isDefault'>>;
+}
 export interface CodexAiService extends StandaloneAiService {
   client: CodexClient;
   refresh(): Promise<void>;
   readRateLimits(): Promise<unknown>;
   readAccount(): Promise<CodexAccount>;
+  readModels(): Promise<CodexModelCatalog>;
   getSettings(): CodexPublicSettings;
   saveSettings(input: unknown): Promise<CodexPublicSettings>;
 }
@@ -160,6 +167,7 @@ export function createCodexAi(
   let models: CodexModel[] = [];
   let disposed = false;
   let active = false;
+  let saving = false;
   let refreshPromise: Promise<void> | undefined;
   let cancelActive: (() => void) | undefined;
   let requests: number[] = [];
@@ -171,8 +179,10 @@ export function createCodexAi(
     if (disposed) throw new Error('桌宠连接已关闭。');
     if (refreshPromise) return refreshPromise;
     refreshPromise = (async () => {
-      account = await client.readAccount();
-      models = account.connected ? await client.listModels() : [];
+      const nextAccount = await client.readAccount();
+      const nextModels = nextAccount.connected ? await client.listModels() : [];
+      account = nextAccount;
+      models = nextModels;
     })();
     try {
       await refreshPromise;
@@ -186,7 +196,6 @@ export function createCodexAi(
   };
   const publicSettings = (): CodexPublicSettings => ({
     ...settings,
-    model: selected()?.id ?? settings.model,
     protocol: 'openai-compatible',
     baseUrl: '',
     hasKey: false,
@@ -203,6 +212,15 @@ export function createCodexAi(
       return account;
     },
     readRateLimits: () => client.readRateLimits(),
+    async readModels() {
+      await refresh();
+      return {
+        connected: account.connected,
+        configuredModel: settings.model,
+        effectiveModel: selected()?.id ?? '',
+        models: models.map(({ id, name, isDefault }) => ({ id, name, isDefault })),
+      };
+    },
     currentSelection: () => ({ provider: PROVIDER, model: selected()?.id ?? settings.model }),
     listProviders: () => [{ id: PROVIDER, name: 'Codex（沿用桌面登录）' }],
     async listModels(provider) {
@@ -218,36 +236,42 @@ export function createCodexAi(
     },
     getSettings: publicSettings,
     async saveSettings(input) {
-      if (disposed || active) throw new Error('请等待当前对话完成后再修改设置。');
-      const next = validate(input, settings);
-      if (next.model) {
-        if (!models.length) await refresh();
-        if (!models.some((model) => model.id === next.model)) throw new Error('此模型不在当前 Codex 可用清单中。');
+      if (disposed || active || saving) throw new Error('请等待当前对话或设置保存完成后再修改设置。');
+      saving = true;
+      try {
+        const next = validate(input, settings);
+        if (next.model) {
+          await refresh();
+          if (!models.some((model) => model.id === next.model)) throw new Error('此模型不在当前 Codex 可用清单中。');
+        }
+        if (disposed) throw new Error('桌宠连接已关闭。');
+        mkdirSync(directory, { recursive: true, mode: 0o700 });
+        if (lstatSync(directory).isSymbolicLink() || (existsSync(file) && lstatSync(file).isSymbolicLink()))
+          throw new Error('无法安全保存桌宠设置。');
+        const temporary = join(directory, `.codex-settings.${process.pid}.${Date.now()}.json`);
+        writeFileSync(temporary, JSON.stringify(next, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+        renameSync(temporary, file);
+        settings = next;
+        return publicSettings();
+      } finally {
+        saving = false;
       }
-      mkdirSync(directory, { recursive: true, mode: 0o700 });
-      if (lstatSync(directory).isSymbolicLink() || (existsSync(file) && lstatSync(file).isSymbolicLink()))
-        throw new Error('无法安全保存桌宠设置。');
-      const temporary = join(directory, `.codex-settings.${process.pid}.${Date.now()}.json`);
-      writeFileSync(temporary, JSON.stringify(next, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
-      renameSync(temporary, file);
-      settings = next;
-      return publicSettings();
     },
     async testConnection() {
       try {
         await refresh();
-        return account.connected && selected()
-          ? { ok: true, message: 'Codex 已连接，可沿用当前登录聊天与查看额度。' }
-          : { ok: false, message: '请先在 Codex 桌面应用登录，再点击测试连接。' };
+        if (!account.connected) return { ok: false, message: '请先在 Codex 桌面应用登录，再点击测试连接。' };
+        if (!selected()) return { ok: false, message: '当前设置的模型不可用，请刷新模型列表并重新选择。' };
+        return { ok: true, message: 'Codex 已连接，可沿用当前登录聊天与查看额度。' };
       } catch {
         return { ok: false, message: '无法连接本机 Codex，请确认桌面应用和 CLI 可用。' };
       }
     },
-    isReady: () => !disposed && settings.enabled && account.connected && Boolean(selected()),
+    isReady: () => !disposed && !saving && settings.enabled && account.connected && Boolean(selected()),
     canWhisper: () => service.isReady() && settings.automaticWhispers,
     stream: async function* (input) {
       if (disposed || !settings.enabled) throw new Error('桌宠聊天已关闭。');
-      if (active) throw new Error('桌宠正在回复，请稍等。');
+      if (active || saving) throw new Error('桌宠正在回复或保存设置，请稍等。');
       const parsed = parseRequest(input);
       if (parsed.signal?.aborted) throw new Error('桌宠聊天已取消。');
       requests = requests.filter((time) => Date.now() - time < 60_000);
@@ -296,8 +320,11 @@ export function createCodexAi(
         if (!models.length || !account.connected) await refresh();
         const requestedModel = record(input).model;
         const model =
-          typeof requestedModel === 'string' ? models.find((item) => item.id === requestedModel) : selected();
-        if (!account.connected || !model) throw new Error('请先在 Codex 桌面应用登录并确认有可用模型。');
+          typeof requestedModel === 'string' && requestedModel
+            ? models.find((item) => item.id === requestedModel)
+            : selected();
+        if (!account.connected) throw new Error('请先在 Codex 桌面应用登录并确认有可用模型。');
+        if (!model) throw new Error('所选模型不可用，请在桌宠设置中刷新模型列表并重新选择。');
         const chat = await client.startChat(
           model.id,
           parsed.system || '你是友好的鲸鱼娘桌面宠物，用简短自然的中文回应用户。',

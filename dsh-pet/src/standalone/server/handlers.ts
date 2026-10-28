@@ -57,7 +57,7 @@ export function settingsHandler(
       const input = validateSettings(JSON.parse(Buffer.concat(chunks).toString('utf8')));
       sendJson(res, 200, publicSettings(await ai.saveSettings(input)));
     } catch {
-      rejectRequest(res, 400, '设置未保存：请检查接口地址、模型名称、密钥和数值范围');
+      rejectRequest(res, 400, '设置未保存：请检查所选模型和填写内容；若正在回复，请等对话完成后重试。');
     }
   };
 }

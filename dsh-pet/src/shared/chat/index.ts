@@ -6,6 +6,8 @@
  */
 export type { ChatDialogMount, ChatDialogOptions } from './dialog.ts';
 export { mountChatDialog } from './dialog.ts';
+export { mountConversationDialog } from './conversation.ts';
+export type { ConversationDialogOptions } from './conversation.ts';
 export { dragHasFiles, firstImageFile, isImageFile } from './image-pick.ts';
 export { CHAT_HOTKEY_HINT, isChatHotkey, isTypingTarget } from './hotkey.ts';
 export type { ChatSendState, ChatAttachment } from './send.ts';
