@@ -8,6 +8,11 @@
       "whisperEnabled": true,
       "workStatusEnabled": true,
       "fixedEnabled": false,
+      "dragMotion": {
+        "mode": "stable",
+        "responseMs": 100,
+        "lockFacing": true
+      },
       "display": "none",
       "position": {
         "corner": "bottom-right",

@@ -72,6 +72,7 @@ export function createCardDrag(rt: CardDragRuntime) {
         halfH: metrics.halfH,
         bottomPad: metrics.bottomPad,
         physics: cfgRef.current.physics,
+        dragMotion: cfgRef.current.dragMotion,
         dragAnims: cfgRef.current.animations.drag,
         clickAnims: cfgRef.current.animations.clicks,
         idleAnims: cfgRef.current.animations.idle,

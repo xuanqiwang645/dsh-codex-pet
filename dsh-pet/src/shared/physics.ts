@@ -57,6 +57,6 @@ export {
   throwVelocity,
   trimTrail,
 } from './physics/release.ts';
-export { softClampSpeed, springStep } from './physics/spring.ts';
+export { softClampSpeed, springStep, stableDragStep } from './physics/spring.ts';
 export { bodyPixelBox, collidePet, rectsOverlap } from './physics/collide.ts';
 export type { PetCollider, PetCollisionSlot } from './physics/collide.ts';

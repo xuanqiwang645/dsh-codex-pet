@@ -1,72 +1,76 @@
 {
-  "version": "0.4.3-codex.1",
+  "version": "0.4.4-codex.1",
   "upstreamCommit": "2b72c1bd246e851c5e1b4890db834aba3452af43",
   "installedApp": "~/Applications/DSH Codex Pet.app",
   "signatureVerified": true,
   "installedRuntimeMatchesBuild": {
     "lib/app.js": true,
     "runtime/electron-helper/shared-core.js": true,
-    "runtime/electron-helper/sprite/menu.js": true
+    "runtime/electron-helper/sprite.js": true,
+    "runtime/electron-helper/sprite/input.js": true,
+    "runtime/electron-helper/sprite/motion.js": true
   },
+  "installedReferencedCharacterVideosMatchBuild": true,
   "nativePetPreserved": true,
+  "existingDataHashesUnchangedBeforeFirstLaunch": {
+    "main-config.jsonc": true,
+    "memory.json": true,
+    "codex-settings.json": true,
+    "pet/chatgpt-dragon-config.jsonc": true
+  },
   "targetedTests": {
-    "passed": 257,
-    "failed": 0
+    "passed": 421,
+    "failed": 0,
+    "javascriptAndTypescript": 411,
+    "pythonMediaBuilder": 10
   },
   "typescriptSourceCheck": "pass",
   "typescriptTestsCheck": "pass",
-  "liveChecks": {
-    "activeCharacter": "chatgpt-dragon",
-    "onlySelectedCharacterVisible": true,
-    "independentCharacterSelectionApplied": true,
-    "fixedPositionDisabled": true,
-    "automaticWalkingObservedWithoutCommands": true,
-    "automaticWalkingSamples": 8,
-    "namedWalkingMovesLeftAtConstantHeight": true,
-    "walkingPlaybackEnded": true,
-    "elegantMenuCurtsyPlayedVisibly": true,
-    "elegantPlaybackEnded": [
-      "白龙提裙轻礼",
-      "白龙从容抿茶",
-      "白龙静心阅卷"
-    ],
-    "conversationIdentityAndModelButtonVisible": true,
-    "conversationClosedAfterCheck": true,
-    "existingDataPreserved": {
-      "mainSettingsExceptSelectedDisplay": true,
-      "memory.json": true,
-      "codex-settings.json": true
-    },
-    "installedReferencedMediaMatchesBuild": true,
-    "referencedAnimations": 11
-  },
   "characterMedia": {
-    "source": "built-in image_gen",
-    "sourcePoseCount": 84,
-    "transparentVideos": 16,
     "canvas": [
       640,
       360
     ],
-    "walkingSourceFrames": 8,
-    "walkingCycleSeconds": 1,
-    "elegantActions": [
-      "提裙轻礼",
-      "拂发整袖",
-      "从容抿茶",
-      "静心阅卷",
-      "舒翼摆尾",
-      "优雅颔首",
-      "悬空轻扶"
-    ]
+    "videos": 16,
+    "allEncodedFramesChecked": true,
+    "frames": 2273,
+    "hardFailures": 0,
+    "boundedAntialiasWarnings": 22,
+    "continuousAnimationFps": 48,
+    "interpolation": {
+      "fps": 48,
+      "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+      "preset": "MEDIUM",
+      "finestScale": 0,
+      "losslessEncoding": true,
+      "inverseMapIterations": 4,
+      "allChannelsShareMapping": true,
+      "buildDependencies": [
+        "numpy",
+        "opencv-python-headless"
+      ],
+      "dependenciesIncludedInApp": false
+    },
+    "notes": "Interpolated edges can be slightly softer than source poses; bounded edge warnings are retained in media-validation.json."
   },
-  "payloadSha256": "dfdd46e0336894a1b6f4f793585ea247ff95ddfbe3729710cd81e872746144bb",
-  "chatInput": "text-only",
-  "dataLocation": "~/Library/Application Support/DSH Codex Pet/data",
-  "transport": "local official codex app-server using existing ChatGPT login",
-  "modelAndChatRegressionBaseline": "codex-v0.4.2; current regression suite passed; original model settings hash unchanged",
+  "dragMotion": {
+    "mode": "stable",
+    "responseMs": 100,
+    "lockFacing": true,
+    "floatingPositionState": true,
+    "keepsGrabAnchor": true,
+    "missingSettingMigrationWithBackupTested": true,
+    "customSettingsPreserved": true
+  },
+  "desktopInteractiveVerification": {
+    "status": "pending",
+    "reason": "interactive session unavailable",
+    "notClaimedAsPassed": true
+  },
+  "payloadSha256": "99605ce37c06ab3d05901725a63b0ffd84489993d33b44e6341f1821736e7254",
   "privacy": {
-    "noUserDataFilesInPayload": true,
-    "noUserPathsInCompiledBundle": true
+    "noPrivateDataFilesInPayload": true,
+    "noUserPathsInCompiledBundle": true,
+    "buildOnlyPythonDependenciesExcluded": true
   }
 }

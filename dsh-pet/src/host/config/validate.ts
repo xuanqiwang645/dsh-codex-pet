@@ -9,6 +9,21 @@ import { FONT_SIZE_MAX, FONT_SIZE_MIN } from '../../shared/fonts.ts';
 import { isKnownVoice } from '../voice/voices.ts';
 import { FONT_FAMILY_SET } from './constants.ts';
 
+/** 角色级稳定拖拽选项；缺失由调用方保留原有手感。 */
+export function dragMotionValid(value: unknown): boolean {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const motion = value as Record<string, unknown>;
+  return (
+    motion.mode === 'stable' &&
+    (motion.responseMs === undefined ||
+      (typeof motion.responseMs === 'number' &&
+        Number.isFinite(motion.responseMs) &&
+        motion.responseMs >= 40 &&
+        motion.responseMs <= 500)) &&
+    (motion.lockFacing === undefined || typeof motion.lockFacing === 'boolean')
+  );
+}
+
 /** animations 段完整性校验（与旧 assertAnimationsHost 同一套规则；不 throw，非法返回 false） */
 function animationsValid(a: unknown): boolean {
   if (!a || typeof a !== 'object') return false;

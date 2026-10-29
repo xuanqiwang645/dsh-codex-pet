@@ -8,10 +8,10 @@
 
 | 版本 | 下载 | 用途 |
 | --- | --- | --- |
-| 交互版 · macOS arm64 | [下载安装包](https://github.com/xuanqiwang645/dsh-codex-pet/releases/download/codex-v0.4.3/dsh-codex-companion-0.4.3-codex.1-macos-arm64.zip) | 透明桌宠窗口、喂食、玩耍、聊天、额度、设置 |
-| Codex 原生皮肤 · v1 | [下载皮肤包](https://github.com/xuanqiwang645/dsh-codex-pet/releases/download/codex-v0.4.3/dsh-native-pet-1.0.0.zip) | Codex 自带宠物界面的九种动画 |
+| 交互版 · macOS arm64 | [下载安装包](https://github.com/xuanqiwang645/dsh-codex-pet/releases/download/codex-v0.4.4/dsh-codex-companion-0.4.4-codex.1-macos-arm64.zip) | 透明桌宠窗口、喂食、玩耍、聊天、额度、设置 |
+| Codex 原生皮肤 · v1 | [下载皮肤包](https://github.com/xuanqiwang645/dsh-codex-pet/releases/download/codex-v0.4.4/dsh-native-pet-1.0.0.zip) | Codex 自带宠物界面的九种动画 |
 
-[发布页与 SHA-256 校验文件](https://github.com/xuanqiwang645/dsh-codex-pet/releases/tag/codex-v0.4.3)
+[发布页与 SHA-256 校验文件](https://github.com/xuanqiwang645/dsh-codex-pet/releases/tag/codex-v0.4.4)
 
 交互版二进制支持 **macOS 12 及以上、Apple Silicon（arm64）**。当前发行包使用临时签名，未经过 Apple 公证；macOS 可能要求用户手动确认打开。安装器保留隔离标记，不修改安全设置。当前没有 Intel Mac、Windows 或 Linux 的 Codex 交互版发行包。
 
@@ -21,7 +21,9 @@
 2. 双击 `install.command`，随后打开个人「应用程序」中的 **DSH Codex Pet**。
 3. 右键宠物：`动作 → 吃什么` 可喂食，`动作 → 玩耍` 可点播玩耍动画；首层菜单提供对话、碎碎念、Codex 额度、设置、重载和退出。
 
-0.4.3 新增可切换的 ChatGPT 白龙娘与优雅日常动作，保留 0.4.2 的常驻对话面板和实时模型下拉选择。交互版已删除网页宠物选项及「显示位置」子菜单。通过 macOS 菜单栏图标勾选宠物，可隐藏或恢复桌宠。旧配置中的 `web`、`both` 自动按桌面显示读取；`none` 继续保持隐藏。浏览器中的「桌宠设置」只用于调整配置。
+0.4.4 修复白龙娘脚部裁切和邻帧残留，并以 48 fps 共享 RGBA 光流补间改善动作衔接。人物按实际像素完整提取，保留留白并统一脚底锚点；拖拽时保持安静抱手姿态、朝向和抓取位置，消除位置取整反馈引起的摆动。补间细节可能略有柔化。旧内置动画按可信 SHA-256 备份升级，已有设置只补入缺失的拖拽选项，自定义内容保留。
+
+交互版已删除网页宠物选项及「显示位置」子菜单。通过 macOS 菜单栏图标勾选宠物，可隐藏或恢复桌宠。旧配置中的 `web`、`both` 自动按桌面显示读取；`none` 继续保持隐藏。浏览器中的「桌宠设置」只用于调整配置。
 
 聊天沿用本机已登录的 Codex 账号，无需另外提供 API 密钥，当前支持文字。需要支持相应 App Server 和命名权限配置的 CLI；已在 `0.164.0-alpha.11.1` 上验证。聊天使用独立只读会话，自动碎碎念默认关闭，开启后按间隔消耗正常 Codex 额度。额度显示套餐窗口的剩余百分比和重置时间。
 
@@ -29,7 +31,7 @@
 
 ## 可选形象
 
-除原版鲸鱼娘外，新增 **ChatGPT 白龙娘**：参考用户提供的角色图，由 imagegen 生成白发紫眸、龙角、浅紫龙翼和卷尾的社区形象。提供连续待机、行走和转身；日常动作改为提裙轻礼、拂发整袖、从容抿茶、静心阅卷、舒翼摆尾与优雅颔首，拖拽时轻扶裙摆，默认开启自主游走。右键宠物打开「桌宠设置」，在「宠物形象」选择后点击「使用此形象」；切换会重新启动桌宠，原形象和聊天记忆均保留。
+除原版鲸鱼娘外，新增 **ChatGPT 白龙娘**：参考用户提供的角色图，由 imagegen 生成白发紫眸、龙角、浅紫龙翼和卷尾的社区形象。提供连续待机、行走和转身，以及提裙轻礼、拂发整袖、从容抿茶、静心阅卷、舒翼摆尾与优雅颔首；拖拽时安静抱手，默认开启自主游走。右键宠物打开「桌宠设置」，在「宠物形象」选择后点击「使用此形象」；切换会重新启动桌宠，原形象和聊天记忆均保留。
 
 ![ChatGPT 白龙娘](dsh-pet/assets/pet-packs/chatgpt-dragon/preview.png)
 
@@ -39,7 +41,7 @@
 
 - 上游基线：`2b72c1bd246e851c5e1b4890db834aba3452af43`。
 - [构建说明](codex/companion/BUILD.md)、[安装器](codex/companion/install.command)、[验证记录](codex/companion/verification/verification.json)。
-- 257 项定向回归与两套 TypeScript 检查通过，包含角色切换、配置恢复、对话和模型选择；透明角色视频已验证画布、Alpha 通道与点击区域。
+- 本次定向测试与素材检查覆盖完整人物提取、邻帧污染、48 fps 共享 RGBA 补间、稳定拖拽及备份升级；具体结果见验证记录。
 - [原项目 README](README.upstream.md) 保留了 DSH 的完整使用与素材说明。本仓库的 Codex 交互版由配套桌面程序承载；原生皮肤只提供动画，未实现 v2 的 16 方向注视。
 
 ## 来源与许可

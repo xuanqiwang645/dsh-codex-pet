@@ -13,7 +13,7 @@ import { createDragFollow } from './drag-follow.ts';
 import { createTouchPress } from './touch-press.ts';
 import { decideRelease } from './drag-release.ts';
 import type { BoxPoint } from './geometry.ts';
-import type { PhysicsParams } from '../../../shared/types.ts';
+import type { DragMotion, PhysicsParams } from '../../../shared/types.ts';
 import type * as ReactNS from 'react';
 
 /** 指针按下的状态：阈值判定、弹弓与长按各占几个字段。 */
@@ -52,6 +52,8 @@ export interface DragCard {
   bottomPad: number;
   /** 该宠物的物理参数。 */
   physics: PhysicsParams;
+  /** 角色自己的可选跟随方式。 */
+  dragMotion?: DragMotion;
   /** 拖拽动画池。 */
   dragAnims: string[];
   /** 点击动画池。 */
@@ -303,7 +305,7 @@ export function createDrag(card: () => DragCard): Drag {
     const rootEl = c.root();
     if (rootEl) follow.start(rootEl);
     const stageEl = c.stage();
-    if (stageEl) stageEl.style.transform = 'none';
+    if (stageEl && c.dragMotion?.mode !== 'stable') stageEl.style.transform = 'none';
   };
 
   /**

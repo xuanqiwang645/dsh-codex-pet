@@ -1,0 +1,3330 @@
+{
+  "version": 1,
+  "interpolation": {
+    "fps": 48,
+    "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+    "preset": "MEDIUM",
+    "finestScale": 0,
+    "losslessEncoding": true,
+    "inverseMapIterations": 4,
+    "allChannelsShareMapping": true,
+    "buildDependencies": [
+      "numpy",
+      "opencv-python-headless"
+    ],
+    "dependenciesIncludedInApp": false
+  },
+  "clips": {
+    "白龙待机灵动": {
+      "fps": 48,
+      "ticks": 12,
+      "inputFrameRate": "48/12",
+      "totalFrames": 288,
+      "loop": true,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 12,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 24,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 36,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 48,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 60,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 72,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 84,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 7
+        },
+        {
+          "frame": 96,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 108,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 120,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 132,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 144,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 156,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 168,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 180,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 7
+        },
+        {
+          "frame": 192,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 204,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 216,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 228,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 240,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 252,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 264,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 276,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 7
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 12,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 12,
+          "endFrame": 24,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 24,
+          "endFrame": 36,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 36,
+          "endFrame": 48,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 48,
+          "endFrame": 60,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 60,
+          "endFrame": 72,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 72,
+          "endFrame": 84,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 84,
+          "endFrame": 96,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 96,
+          "endFrame": 108,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 108,
+          "endFrame": 120,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 120,
+          "endFrame": 132,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 132,
+          "endFrame": 144,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 144,
+          "endFrame": 156,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 156,
+          "endFrame": 168,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 168,
+          "endFrame": 180,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 180,
+          "endFrame": 192,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 192,
+          "endFrame": 204,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 204,
+          "endFrame": 216,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 216,
+          "endFrame": 228,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 228,
+          "endFrame": 240,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 240,
+          "endFrame": 252,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 252,
+          "endFrame": 264,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 264,
+          "endFrame": 276,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 276,
+          "endFrame": 288,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 24,
+        "frames": 288,
+        "ticks": 12,
+        "loop": true,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    },
+    "白龙轻快行走": {
+      "fps": 48,
+      "ticks": 6,
+      "inputFrameRate": "48/6",
+      "totalFrames": 192,
+      "loop": true,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "walk-cycle.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 6,
+          "source": "walk-cycle.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 12,
+          "source": "walk-cycle.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 18,
+          "source": "walk-cycle.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 24,
+          "source": "walk-cycle.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 30,
+          "source": "walk-cycle.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 36,
+          "source": "walk-cycle.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 42,
+          "source": "walk-cycle.png",
+          "sourceFrame": 7
+        },
+        {
+          "frame": 48,
+          "source": "walk-cycle.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 54,
+          "source": "walk-cycle.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 60,
+          "source": "walk-cycle.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 66,
+          "source": "walk-cycle.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 72,
+          "source": "walk-cycle.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 78,
+          "source": "walk-cycle.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 84,
+          "source": "walk-cycle.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 90,
+          "source": "walk-cycle.png",
+          "sourceFrame": 7
+        },
+        {
+          "frame": 96,
+          "source": "walk-cycle.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 102,
+          "source": "walk-cycle.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 108,
+          "source": "walk-cycle.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 114,
+          "source": "walk-cycle.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 120,
+          "source": "walk-cycle.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 126,
+          "source": "walk-cycle.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 132,
+          "source": "walk-cycle.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 138,
+          "source": "walk-cycle.png",
+          "sourceFrame": 7
+        },
+        {
+          "frame": 144,
+          "source": "walk-cycle.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 150,
+          "source": "walk-cycle.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 156,
+          "source": "walk-cycle.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 162,
+          "source": "walk-cycle.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 168,
+          "source": "walk-cycle.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 174,
+          "source": "walk-cycle.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 180,
+          "source": "walk-cycle.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 186,
+          "source": "walk-cycle.png",
+          "sourceFrame": 7
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 6,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 6,
+          "endFrame": 12,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 12,
+          "endFrame": 18,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 18,
+          "endFrame": 24,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 24,
+          "endFrame": 30,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 30,
+          "endFrame": 36,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 36,
+          "endFrame": 42,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 42,
+          "endFrame": 48,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 48,
+          "endFrame": 54,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 54,
+          "endFrame": 60,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 60,
+          "endFrame": 66,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 66,
+          "endFrame": 72,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 72,
+          "endFrame": 78,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 78,
+          "endFrame": 84,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 84,
+          "endFrame": 90,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 90,
+          "endFrame": 96,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 96,
+          "endFrame": 102,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 102,
+          "endFrame": 108,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 108,
+          "endFrame": 114,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 114,
+          "endFrame": 120,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 120,
+          "endFrame": 126,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 126,
+          "endFrame": 132,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 132,
+          "endFrame": 138,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 138,
+          "endFrame": 144,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 144,
+          "endFrame": 150,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 150,
+          "endFrame": 156,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 156,
+          "endFrame": 162,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 162,
+          "endFrame": 168,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 168,
+          "endFrame": 174,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 174,
+          "endFrame": 180,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 180,
+          "endFrame": 186,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 186,
+          "endFrame": 192,
+          "left": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "walk-cycle.png",
+            "sourceFrame": 0
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 32,
+        "frames": 192,
+        "ticks": 6,
+        "loop": true,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    },
+    "白龙回首转身": {
+      "fps": 48,
+      "ticks": 8,
+      "inputFrameRate": "48/8",
+      "totalFrames": 64,
+      "loop": false,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "turn-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 8,
+          "source": "turn-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 16,
+          "source": "turn-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 24,
+          "source": "turn-cycle-v2.png",
+          "sourceFrame": 7
+        },
+        {
+          "frame": 32,
+          "source": "turn-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 40,
+          "source": "turn-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 48,
+          "source": "turn-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 56,
+          "source": "turn-cycle-v2.png",
+          "sourceFrame": 0
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 8,
+          "left": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 8,
+          "endFrame": 16,
+          "left": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 16,
+          "endFrame": 24,
+          "left": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 24,
+          "endFrame": 32,
+          "left": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 32,
+          "endFrame": 40,
+          "left": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 40,
+          "endFrame": 48,
+          "left": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 48,
+          "endFrame": 56,
+          "left": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 56,
+          "endFrame": 64,
+          "left": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "turn-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 8,
+        "frames": 64,
+        "ticks": 8,
+        "loop": false,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    },
+    "白龙悬空摆尾": {
+      "fps": 48,
+      "ticks": 6,
+      "inputFrameRate": "48/6",
+      "totalFrames": 96,
+      "loop": true,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 8
+        },
+        {
+          "frame": 6,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 9
+        },
+        {
+          "frame": 12,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 10
+        },
+        {
+          "frame": 18,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 11
+        },
+        {
+          "frame": 24,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 12
+        },
+        {
+          "frame": 30,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 13
+        },
+        {
+          "frame": 36,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 14
+        },
+        {
+          "frame": 42,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 15
+        },
+        {
+          "frame": 48,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 8
+        },
+        {
+          "frame": 54,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 9
+        },
+        {
+          "frame": 60,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 10
+        },
+        {
+          "frame": 66,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 11
+        },
+        {
+          "frame": 72,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 12
+        },
+        {
+          "frame": 78,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 13
+        },
+        {
+          "frame": 84,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 14
+        },
+        {
+          "frame": 90,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 15
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 6,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 8
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 9
+          }
+        },
+        {
+          "startFrame": 6,
+          "endFrame": 12,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 9
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 10
+          }
+        },
+        {
+          "startFrame": 12,
+          "endFrame": 18,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 10
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 11
+          }
+        },
+        {
+          "startFrame": 18,
+          "endFrame": 24,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 11
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 12
+          }
+        },
+        {
+          "startFrame": 24,
+          "endFrame": 30,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 12
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 13
+          }
+        },
+        {
+          "startFrame": 30,
+          "endFrame": 36,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 13
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 14
+          }
+        },
+        {
+          "startFrame": 36,
+          "endFrame": 42,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 14
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 15
+          }
+        },
+        {
+          "startFrame": 42,
+          "endFrame": 48,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 15
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 8
+          }
+        },
+        {
+          "startFrame": 48,
+          "endFrame": 54,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 8
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 9
+          }
+        },
+        {
+          "startFrame": 54,
+          "endFrame": 60,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 9
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 10
+          }
+        },
+        {
+          "startFrame": 60,
+          "endFrame": 66,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 10
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 11
+          }
+        },
+        {
+          "startFrame": 66,
+          "endFrame": 72,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 11
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 12
+          }
+        },
+        {
+          "startFrame": 72,
+          "endFrame": 78,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 12
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 13
+          }
+        },
+        {
+          "startFrame": 78,
+          "endFrame": 84,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 13
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 14
+          }
+        },
+        {
+          "startFrame": 84,
+          "endFrame": 90,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 14
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 15
+          }
+        },
+        {
+          "startFrame": 90,
+          "endFrame": 96,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 15
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 8
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 16,
+        "frames": 96,
+        "ticks": 6,
+        "loop": true,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    },
+    "白龙提裙轻礼": {
+      "fps": 48,
+      "ticks": 12,
+      "inputFrameRate": "48/12",
+      "totalFrames": 96,
+      "loop": false,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 12,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 24,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 36,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 48,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 60,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 72,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 84,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 7
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 12,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 12,
+          "endFrame": 24,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 24,
+          "endFrame": 36,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 36,
+          "endFrame": 48,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 48,
+          "endFrame": 60,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 60,
+          "endFrame": 72,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 72,
+          "endFrame": 84,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 84,
+          "endFrame": 96,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 8,
+        "frames": 96,
+        "ticks": 12,
+        "loop": false,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    },
+    "白龙拂发整袖": {
+      "fps": 48,
+      "ticks": 12,
+      "inputFrameRate": "48/12",
+      "totalFrames": 96,
+      "loop": false,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 8
+        },
+        {
+          "frame": 12,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 9
+        },
+        {
+          "frame": 24,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 10
+        },
+        {
+          "frame": 36,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 11
+        },
+        {
+          "frame": 48,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 12
+        },
+        {
+          "frame": 60,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 13
+        },
+        {
+          "frame": 72,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 14
+        },
+        {
+          "frame": 84,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 15
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 12,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 8
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 9
+          }
+        },
+        {
+          "startFrame": 12,
+          "endFrame": 24,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 9
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 10
+          }
+        },
+        {
+          "startFrame": 24,
+          "endFrame": 36,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 10
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 11
+          }
+        },
+        {
+          "startFrame": 36,
+          "endFrame": 48,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 11
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 12
+          }
+        },
+        {
+          "startFrame": 48,
+          "endFrame": 60,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 12
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 13
+          }
+        },
+        {
+          "startFrame": 60,
+          "endFrame": 72,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 13
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 14
+          }
+        },
+        {
+          "startFrame": 72,
+          "endFrame": 84,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 14
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 15
+          }
+        },
+        {
+          "startFrame": 84,
+          "endFrame": 96,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 15
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 15
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 8,
+        "frames": 96,
+        "ticks": 12,
+        "loop": false,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    },
+    "白龙从容抿茶": {
+      "fps": 48,
+      "ticks": 16,
+      "inputFrameRate": "48/16",
+      "totalFrames": 128,
+      "loop": false,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 16,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 32,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 48,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 64,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 80,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 96,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 112,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 7
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 16,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 16,
+          "endFrame": 32,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 32,
+          "endFrame": 48,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 48,
+          "endFrame": 64,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 64,
+          "endFrame": 80,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 80,
+          "endFrame": 96,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 96,
+          "endFrame": 112,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 112,
+          "endFrame": 128,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 8,
+        "frames": 128,
+        "ticks": 16,
+        "loop": false,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    },
+    "白龙静心阅卷": {
+      "fps": 48,
+      "ticks": 20,
+      "inputFrameRate": "48/20",
+      "totalFrames": 160,
+      "loop": false,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 8
+        },
+        {
+          "frame": 20,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 9
+        },
+        {
+          "frame": 40,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 10
+        },
+        {
+          "frame": 60,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 11
+        },
+        {
+          "frame": 80,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 12
+        },
+        {
+          "frame": 100,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 13
+        },
+        {
+          "frame": 120,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 14
+        },
+        {
+          "frame": 140,
+          "source": "tea-reading-cycle-v2.png",
+          "sourceFrame": 15
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 20,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 8
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 9
+          }
+        },
+        {
+          "startFrame": 20,
+          "endFrame": 40,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 9
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 10
+          }
+        },
+        {
+          "startFrame": 40,
+          "endFrame": 60,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 10
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 11
+          }
+        },
+        {
+          "startFrame": 60,
+          "endFrame": 80,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 11
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 12
+          }
+        },
+        {
+          "startFrame": 80,
+          "endFrame": 100,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 12
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 13
+          }
+        },
+        {
+          "startFrame": 100,
+          "endFrame": 120,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 13
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 14
+          }
+        },
+        {
+          "startFrame": 120,
+          "endFrame": 140,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 14
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 15
+          }
+        },
+        {
+          "startFrame": 140,
+          "endFrame": 160,
+          "left": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 15
+          },
+          "right": {
+            "source": "tea-reading-cycle-v2.png",
+            "sourceFrame": 15
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 8,
+        "frames": 160,
+        "ticks": 20,
+        "loop": false,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    },
+    "白龙舒翼摆尾": {
+      "fps": 48,
+      "ticks": 12,
+      "inputFrameRate": "48/12",
+      "totalFrames": 96,
+      "loop": false,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "wings-drag-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 12,
+          "source": "wings-drag-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 24,
+          "source": "wings-drag-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 36,
+          "source": "wings-drag-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 48,
+          "source": "wings-drag-cycle-v2.png",
+          "sourceFrame": 7
+        },
+        {
+          "frame": 60,
+          "source": "wings-drag-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 72,
+          "source": "wings-drag-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 84,
+          "source": "wings-drag-cycle-v2.png",
+          "sourceFrame": 0
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 12,
+          "left": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 12,
+          "endFrame": 24,
+          "left": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 24,
+          "endFrame": 36,
+          "left": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 36,
+          "endFrame": 48,
+          "left": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 48,
+          "endFrame": 60,
+          "left": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 60,
+          "endFrame": 72,
+          "left": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 72,
+          "endFrame": 84,
+          "left": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 84,
+          "endFrame": 96,
+          "left": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "wings-drag-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 8,
+        "frames": 96,
+        "ticks": 12,
+        "loop": false,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    },
+    "白龙悬空轻扶": {
+      "fps": 48,
+      "ticks": 12,
+      "inputFrameRate": "48/12",
+      "totalFrames": 288,
+      "loop": true,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 12,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 24,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 36,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 48,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 60,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 72,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 84,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 7
+        },
+        {
+          "frame": 96,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 108,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 120,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 132,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 144,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 156,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 168,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 180,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 7
+        },
+        {
+          "frame": 192,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 204,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 216,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 228,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 240,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 252,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 264,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 276,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 7
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 12,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 12,
+          "endFrame": 24,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 24,
+          "endFrame": 36,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 36,
+          "endFrame": 48,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 48,
+          "endFrame": 60,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 60,
+          "endFrame": 72,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 72,
+          "endFrame": 84,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 84,
+          "endFrame": 96,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 96,
+          "endFrame": 108,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 108,
+          "endFrame": 120,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 120,
+          "endFrame": 132,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 132,
+          "endFrame": 144,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 144,
+          "endFrame": 156,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 156,
+          "endFrame": 168,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 168,
+          "endFrame": 180,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 180,
+          "endFrame": 192,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 192,
+          "endFrame": 204,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 204,
+          "endFrame": 216,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 216,
+          "endFrame": 228,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 228,
+          "endFrame": 240,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 240,
+          "endFrame": 252,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 252,
+          "endFrame": 264,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 264,
+          "endFrame": 276,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 276,
+          "endFrame": 288,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 24,
+        "frames": 288,
+        "ticks": 12,
+        "loop": true,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    },
+    "白龙优雅颔首": {
+      "fps": 48,
+      "ticks": 8,
+      "inputFrameRate": "48/8",
+      "totalFrames": 56,
+      "loop": false,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 8,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 16,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 24,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 32,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 40,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 48,
+          "source": "courtesy-hair-cycle-v2.png",
+          "sourceFrame": 0
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 8,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 8,
+          "endFrame": 16,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 16,
+          "endFrame": 24,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 24,
+          "endFrame": 32,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 32,
+          "endFrame": 40,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 40,
+          "endFrame": 48,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 48,
+          "endFrame": 56,
+          "left": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "courtesy-hair-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 7,
+        "frames": 56,
+        "ticks": 8,
+        "loop": false,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    },
+    "白龙事件轻语": {
+      "fps": 48,
+      "ticks": 12,
+      "inputFrameRate": "48/12",
+      "totalFrames": 288,
+      "loop": true,
+      "anchors": [
+        {
+          "frame": 0,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 12,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 24,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 36,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 48,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 60,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 72,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 84,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 7
+        },
+        {
+          "frame": 96,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 108,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 120,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 132,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 144,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 156,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 168,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 180,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 7
+        },
+        {
+          "frame": 192,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 0
+        },
+        {
+          "frame": 204,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 1
+        },
+        {
+          "frame": 216,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 2
+        },
+        {
+          "frame": 228,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 3
+        },
+        {
+          "frame": 240,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 4
+        },
+        {
+          "frame": 252,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 5
+        },
+        {
+          "frame": 264,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 6
+        },
+        {
+          "frame": 276,
+          "source": "idle-drag-cycle-v2.png",
+          "sourceFrame": 7
+        }
+      ],
+      "intervals": [
+        {
+          "startFrame": 0,
+          "endFrame": 12,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 12,
+          "endFrame": 24,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 24,
+          "endFrame": 36,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 36,
+          "endFrame": 48,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 48,
+          "endFrame": 60,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 60,
+          "endFrame": 72,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 72,
+          "endFrame": 84,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 84,
+          "endFrame": 96,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 96,
+          "endFrame": 108,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 108,
+          "endFrame": 120,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 120,
+          "endFrame": 132,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 132,
+          "endFrame": 144,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 144,
+          "endFrame": 156,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 156,
+          "endFrame": 168,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 168,
+          "endFrame": 180,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 180,
+          "endFrame": 192,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        },
+        {
+          "startFrame": 192,
+          "endFrame": 204,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          }
+        },
+        {
+          "startFrame": 204,
+          "endFrame": 216,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 1
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          }
+        },
+        {
+          "startFrame": 216,
+          "endFrame": 228,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 2
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          }
+        },
+        {
+          "startFrame": 228,
+          "endFrame": 240,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 3
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          }
+        },
+        {
+          "startFrame": 240,
+          "endFrame": 252,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 4
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          }
+        },
+        {
+          "startFrame": 252,
+          "endFrame": 264,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 5
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          }
+        },
+        {
+          "startFrame": 264,
+          "endFrame": 276,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 6
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          }
+        },
+        {
+          "startFrame": 276,
+          "endFrame": 288,
+          "left": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 7
+          },
+          "right": {
+            "source": "idle-drag-cycle-v2.png",
+            "sourceFrame": 0
+          }
+        }
+      ],
+      "sharedFlow": {
+        "method": "bidirectional-DIS-shared-premultiplied-RGBA",
+        "opencvVersion": "5.0.0",
+        "preset": "MEDIUM",
+        "finestScale": 0,
+        "inverseMapIterations": 4,
+        "sourceAnchors": 24,
+        "frames": 288,
+        "ticks": 12,
+        "loop": true,
+        "canvas": [
+          640,
+          360
+        ],
+        "allChannelsShareMapping": true,
+        "sourceAnchorsPreserved": true
+      }
+    }
+  }
+}

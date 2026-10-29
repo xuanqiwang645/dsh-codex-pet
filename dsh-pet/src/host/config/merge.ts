@@ -6,7 +6,7 @@
  * @module dsh-pet/src/host/config/merge
  */
 import { CORNER_SET, GLOBAL_DEFAULT_KEYS, isValidPetId, PET_DISPLAY_SET, warnOnce } from './constants.ts';
-import { topFieldValid } from './validate.ts';
+import { dragMotionValid, topFieldValid } from './validate.ts';
 
 /**
  * 文件宠物条目的合并基座：内置默认 + 白名单字段改用用户层的值。这些字段是用户级成本/偏好/
@@ -150,6 +150,7 @@ function mergePet(
     whisperEnabled: petBool(p.whisperEnabled, base.whisperEnabled, label, 'whisperEnabled', id),
     workStatusEnabled: petBool(p.workStatusEnabled, base.workStatusEnabled, label, 'workStatusEnabled', id),
     fixedEnabled: petBool(p.fixedEnabled, base.fixedEnabled, label, 'fixedEnabled', id),
+    ...petDragMotionField(p.dragMotion, label, id),
     display: petEnum(p.display, PET_DISPLAY_SET, base.display, label, 'display', id),
     position: {
       corner: petEnum(ownPos.corner, CORNER_SET, basePos.corner, label, 'position.corner', id),
@@ -162,6 +163,14 @@ function mergePet(
     // 「跟随条目」固化成显式覆盖——之后用户改条目人设，这些实例不再跟着变。
     ...petPersonaField(p.whisperPrompt, label, id),
   };
+}
+
+/** 拖拽是角色特性，不从默认宠物继承；非法覆盖只告警并忽略。 */
+function petDragMotionField(own: unknown, label: string, id: string): Record<string, unknown> {
+  if (own === undefined) return {};
+  if (dragMotionValid(own)) return { dragMotion: own };
+  warnOnce(`${label}:dragMotion:${id}`, `宠物「${id}」的 dragMotion 非法，已忽略`);
+  return {};
 }
 
 /**

@@ -5,7 +5,8 @@
  * 不变量：同一时刻最多一条跟随在跑；瞄准与停走都会让迟到的帧自弃。
  * @module dsh-pet/src/client/pet/motion/drag-follow
  */
-import { springStep } from '../../../shared/physics.ts';
+import { springStep, stableDragStep } from '../../../shared/physics.ts';
+import type { DragMotion } from '../../../shared/types.ts';
 import type { BoxPoint } from './geometry.ts';
 
 /** 跟随驱动每次起跑取的当帧能力：起跑时取一次快照，一次拖拽内盒与弹簧参数不变。 */
@@ -18,6 +19,8 @@ export interface DragFollowDeps {
     setBox(box: BoxPoint): void;
     /** 该宠物的物理参数，只取弹簧刚度。 */
     physics: { throwPower: number };
+    /** 角色自己的可选跟随方式。 */
+    dragMotion?: DragMotion;
   };
 }
 
@@ -67,6 +70,9 @@ export function createDragFollow(deps: DragFollowDeps): DragFollow {
     if (frame !== null) return;
     const current = deps.card();
     const spring = current.physics.throwPower;
+    const motion = current.dragMotion;
+    const stable = motion?.mode === 'stable';
+    let continuous = current.box() ?? { x: 0, y: 0 };
     const own = ++token;
     last = performance.now();
     const step = (): void => {
@@ -79,13 +85,22 @@ export function createDragFollow(deps: DragFollowDeps): DragFollow {
       const now = performance.now();
       const dt = Math.min((now - last) / 1000, 1 / 30);
       last = now;
-      const box = current.box() ?? { x: 0, y: 0 };
+      const box = stable ? continuous : (current.box() ?? { x: 0, y: 0 });
       let x = box.x;
       let y = box.y;
-      velocity.vx = springStep(velocity.vx, x, goal.x, dt, spring);
-      velocity.vy = springStep(velocity.vy, y, goal.y, dt, spring);
-      x += velocity.vx * dt;
-      y += velocity.vy * dt;
+      if (stable) {
+        const horizontal = stableDragStep(velocity.vx, x, goal.x, dt, motion.responseMs);
+        const vertical = stableDragStep(velocity.vy, y, goal.y, dt, motion.responseMs);
+        x = horizontal.x;
+        y = vertical.x;
+        velocity = { vx: horizontal.v, vy: vertical.v };
+        continuous = { x, y };
+      } else {
+        velocity.vx = springStep(velocity.vx, x, goal.x, dt, spring);
+        velocity.vy = springStep(velocity.vy, y, goal.y, dt, spring);
+        x += velocity.vx * dt;
+        y += velocity.vy * dt;
+      }
       current.setBox({ x, y });
       rootEl.style.left = x + 'px';
       rootEl.style.top = y + 'px';

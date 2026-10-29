@@ -1,0 +1,3 @@
+# Build-time only. These Python packages are never included in the desktop app.
+numpy>=1.24,<3
+opencv-python-headless>=4.8,<6

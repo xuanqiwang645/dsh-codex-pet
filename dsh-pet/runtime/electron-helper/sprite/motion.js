@@ -65,6 +65,10 @@ Object.assign(PetSprite.prototype, {
   startDragFollow() {
     if (this.dragFollow !== null) return;
     const token = ++this.dragFollowToken;
+    const motion = this.pet.dragMotion;
+    const stable = motion?.mode === 'stable';
+    // 连续状态只属于本轮拖拽；sendBounds 的整数窗口坐标不能反过来参与积分。
+    let continuous = { x: this.pos.x, y: this.pos.y };
     let last = performance.now();
     const step = () => {
       if (this.dragFollowToken !== token) return;
@@ -77,12 +81,22 @@ Object.assign(PetSprite.prototype, {
       const dt = Math.min((now - last) / 1000, 1 / 30);
       last = now;
       const vel = this.dragVel;
-      let x = this.pos.x;
-      let y = this.pos.y;
-      vel.vx = S.springStep(vel.vx, x, target.x, dt, this.physics.throwPower);
-      vel.vy = S.springStep(vel.vy, y, target.y, dt, this.physics.throwPower);
-      x += vel.vx * dt;
-      y += vel.vy * dt;
+      let x = stable ? continuous.x : this.pos.x;
+      let y = stable ? continuous.y : this.pos.y;
+      if (stable) {
+        const horizontal = S.stableDragStep(vel.vx, x, target.x, dt, motion.responseMs);
+        const vertical = S.stableDragStep(vel.vy, y, target.y, dt, motion.responseMs);
+        x = horizontal.x;
+        y = vertical.x;
+        vel.vx = horizontal.v;
+        vel.vy = vertical.v;
+        continuous = { x, y };
+      } else {
+        vel.vx = S.springStep(vel.vx, x, target.x, dt, this.physics.throwPower);
+        vel.vy = S.springStep(vel.vy, y, target.y, dt, this.physics.throwPower);
+        x += vel.vx * dt;
+        y += vel.vy * dt;
+      }
       this.sendBounds(x, y); // 移动的是窗口（this.pos 实时更新）；sprite 在本窗口内不动
       this.dragFollow = requestAnimationFrame(step);
     };

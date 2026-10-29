@@ -117,6 +117,8 @@ class PetSprite {
   }
 
   set facing(next) {
+    if (this.dragState?.active && this.pet.dragMotion?.mode === 'stable' && this.pet.dragMotion.lockFacing !== false)
+      return;
     const value = next === 'right' ? 'right' : 'left';
     if (this._facing === value) return;
     this._facing = value;

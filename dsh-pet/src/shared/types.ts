@@ -63,6 +63,16 @@ export interface Animations {
   events: Events;
 }
 
+/** 可选的角色拖拽手感；缺失时保留原有弹簧、拿起与抛掷行为。 */
+export interface DragMotion {
+  /** stable 使用无回摆的临界阻尼跟随，并保留舞台的抓取锚点。 */
+  mode: 'stable';
+  /** 跟随响应时间（毫秒，40..500）；与抛掷力度独立，默认 100。 */
+  responseMs?: number;
+  /** 拖拽期间保持抓取时的朝向，默认 true。 */
+  lockFacing?: boolean;
+}
+
 /** 一只宠物（与 config.jsonc 的 pets[i] 同形，position 嵌套）。
  *  可选段是渲染期派生或文件宠物专用：条目级字段由合并器在拍平时吹进每只实例，多实例共享；
  *  extra 标记文件宠物（设置页不可编辑、保存时排除，永不出现在持久化配置里）；
@@ -86,6 +96,8 @@ export interface Pet {
   /** 宠物固定：true = 随机链不抽转向与移动两档（权重按 0 算，份额并入原地小动作），只影响随机链——
    *  右键点播、/anim 接口、事件动画、点击回应与拖拽一律照常。缺失默认 false。 */
   fixedEnabled: boolean;
+  /** 角色自己的拖拽方式，未配置的宠物继续使用原有行为。 */
+  dragMotion?: DragMotion;
   /** 显示位置（必填）：缺失即配置错误，代码不做兜底 */
   display: PetDisplay;
   position: { corner: Corner; marginX: number; marginY: number };

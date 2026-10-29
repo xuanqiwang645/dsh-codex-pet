@@ -116,12 +116,20 @@ Object.assign(PetSprite.prototype, {
     if (!d.dragging) {
       if (Math.hypot(dx, dy) < S.DRAG_THRESHOLD) return;
       d.dragging = true;
+      this.syncInputBusy(); // 拖拽成立：主进程兜底通道闭嘴（见 inputBusy）
       // 真正开始拖拽才把舞台拍平（人物随光标拿起）
-      this.stage.style.transform = 'none';
+      if (this.pet.dragMotion?.mode === 'stable') {
+        // 保持抓住时的舞台锚点，不因拿起而突然上移 bottomPad；点击挤压也立即收住。
+        this.stopSquash();
+        this.pendingSquash = false;
+        for (const video of [this.videoA, this.videoB]) {
+          video.style.transformOrigin = '';
+          video.style.transform = this.facing === 'right' ? 'scaleX(-1)' : '';
+        }
+      } else this.stage.style.transform = 'none';
       if (this.animations.drag.length) {
         this.playOnce(S.pick(this.animations.drag));
       }
-      this.syncInputBusy(); // 拖拽成立：主进程兜底通道闭嘴（见 inputBusy）
     }
     // 记录指针轨迹（screenX/Y 采样，速度一致；初速估算用；÷scale 进 CSS 系）
     const now = performance.now();

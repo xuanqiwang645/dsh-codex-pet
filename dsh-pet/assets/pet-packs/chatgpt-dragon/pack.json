@@ -3,5 +3,23 @@
   "name": "ChatGPT 白龙娘",
   "config": "chatgpt-dragon-config.jsonc",
   "animationDirectory": "chatgpt-dragon-animation",
-  "version": 1
+  "version": 1,
+  "previousAnimationHashes": {
+    "白龙事件轻语.webm": "7557c281189bf5f1b56f4cee854478b77b55b342a3c2f6ea5040a860280cdf36",
+    "白龙从容抿茶.webm": "4f52583041b5f9d55e59eee82b490cc1fc9d1c2ae13742c94157d55fa612dd49",
+    "白龙优雅颔首.webm": "e29aaace2d0370c8f0b840388974d218c88c9304d72fa5e96d9fc9be87d7498a",
+    "白龙品茶.webm": "583b7576d3afbdd2032a9626bc1e0ad98e35e1a9aba93528832c8ddffb12cd22",
+    "白龙回首转身.webm": "b48f2ce2c1cd253cde8cb1546b9d9a7f6585955e7e85a8df074d7c0de3dffee7",
+    "白龙待机灵动.webm": "7557c281189bf5f1b56f4cee854478b77b55b342a3c2f6ea5040a860280cdf36",
+    "白龙待机眨眼.webm": "9b4cbf9cf9c1622d1feba70839b47679093a87aca9af8d2f7a334c2de40133a7",
+    "白龙悬空摆尾.webm": "228e61e3063d9da053c7120dcf31f50ddabd28ece74137ddc7f8ac49c79b024d",
+    "白龙悬空轻扶.webm": "e2d7e9a67b44e7db3eab7d35ed144054374a39ee07ea1762b20a839c36b85216",
+    "白龙拂发整袖.webm": "0b761c0cfc0c032ced671499580c2d253ed4a85e61a4b81e5e1d026ad97d2e64",
+    "白龙挥手.webm": "dea66fd195b82b404c5fc1dfb3c284819eb4b9fd636bc55aa1025a011ac81cdf",
+    "白龙提裙轻礼.webm": "104fbc0944aa9ab93e1aac31bb77064b82bff8e5ff454bb93d8d4670c3e692ac",
+    "白龙舒翼摆尾.webm": "4c298b354ca5aa7a311ed91e7c3827f4148c16636f71d8ecaf60b5596a1c75f8",
+    "白龙轻快行走.webm": "9347a03703b4e1601a457d32c721d63b86a9cbe437f2bab82b7c9dc92a87ff5b",
+    "白龙轻闭双眼.webm": "e2bff36efdd315a900e957ef5124e05dc9d041623e4dc1edff897aed37d1cc81",
+    "白龙静心阅卷.webm": "f9c970433a5246b3fe576b69d9f407e6652b61f7e14808b81ff292e86667090e"
+  }
 }

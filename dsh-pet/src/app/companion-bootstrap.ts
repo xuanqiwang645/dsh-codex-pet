@@ -7,11 +7,14 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
+  renameSync,
   unlinkSync,
   writeFileSync,
 } from 'node:fs';
-import { dirname, isAbsolute, join } from 'node:path';
+import { createHash, randomUUID } from 'node:crypto';
+import { basename, dirname, isAbsolute, join } from 'node:path';
 import { readUserConfig } from '../host/config.ts';
+import { dragMotionValid } from '../host/config/validate.ts';
 
 interface CompanionApp {
   getPath(name: string): string;
@@ -102,35 +105,125 @@ function installBundledCharacter(packageRoot: string, destination: string): void
   if (!Array.isArray(pets) || pets.length !== 1 || !pets[0] || pets[0].id !== entry || pets[0].display !== 'none') {
     throw new Error('内置角色默认配置无效。');
   }
+  const defaultDragMotion = pets[0].dragMotion;
+  if (defaultDragMotion !== undefined && !dragMotionValid(defaultDragMotion)) {
+    throw new Error('内置角色默认拖拽配置无效。');
+  }
   const animationSource = join(source, animationName);
   assertDirectory(animationSource);
-  const animations = readdirSync(animationSource, { withFileTypes: true });
+  const safeAnimationName = (name: string): boolean =>
+    name.length <= 180 &&
+    !name.startsWith('.') &&
+    // eslint-disable-next-line no-control-regex -- Control characters cannot occur in installed filenames.
+    /^[^\\/:*?"<>|\u0000-\u001f]+\.webm$/u.test(name);
+  const animations = readdirSync(animationSource, { withFileTypes: true }).sort((a, b) =>
+    a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
+  );
   if (
     !animations.length ||
-    animations.some((file) => !file.isFile() || file.isSymbolicLink() || !file.name.endsWith('.webm'))
+    animations.some((file) => !file.isFile() || file.isSymbolicLink() || !safeAnimationName(file.name))
   ) {
     throw new Error('内置角色动画文件无效。');
+  }
+  const previous = manifest.previousAnimationHashes;
+  if (previous !== undefined && (!previous || typeof previous !== 'object' || Array.isArray(previous))) {
+    throw new Error('内置角色旧素材清单无效。');
+  }
+  const animationNames = new Set(animations.map((file) => file.name));
+  const previousHashes = new Map<string, string>();
+  for (const [name, hash] of Object.entries(previous ?? {})) {
+    if (
+      !safeAnimationName(name) ||
+      !animationNames.has(name) ||
+      typeof hash !== 'string' ||
+      !/^[a-f0-9]{64}$/.test(hash)
+    ) {
+      throw new Error('内置角色旧素材清单无效。');
+    }
+    previousHashes.set(name, hash);
   }
   // Check existing destinations before copying, including files we will preserve.
   for (const dir of [dirname(destination), destination, join(destination, animationName)]) {
     if (existsSync(dir)) assertDirectory(dir);
   }
-  const copies = animations.map(
-    (file) => [join(animationSource, file.name), join(destination, animationName, file.name)] as const,
-  );
-  copies.push([configFile, join(destination, configName)]);
-  for (const [, target] of copies) if (existsSync(target)) assertFile(target);
+  const hashFile = (path: string): string => createHash('sha256').update(readFileSync(path)).digest('hex');
+  const copies = animations.map((file) => ({
+    original: join(animationSource, file.name),
+    target: join(destination, animationName, file.name),
+    previousHash: previousHashes.get(file.name),
+  }));
+  // Existing configuration can only gain a missing new behavior default for this reviewed character.
+  const configTarget = join(destination, configName);
+  copies.push({ original: configFile, target: configTarget, previousHash: undefined });
+  for (const { target } of copies) if (existsSync(target)) assertFile(target);
   mkdirSync(join(destination, animationName), { recursive: true, mode: 0o700 });
-  const created: string[] = [];
+  const changes: Array<{ target: string; backup?: string }> = [];
+  const temporaryFiles: string[] = [];
+  const backupFiles: string[] = [];
   try {
     // Install the config last, so a failed first install never exposes a partial character.
-    for (const [original, target] of copies) {
-      if (existsSync(target)) continue;
-      copyFileSync(original, target, constants.COPYFILE_EXCL);
-      created.push(target);
+    for (const { original, target, previousHash } of copies) {
+      if (!existsSync(target)) {
+        copyFileSync(original, target, constants.COPYFILE_EXCL);
+        changes.push({ target });
+        continue;
+      }
+      assertFile(target);
+      let updatedConfig: string | undefined;
+      if (target === configTarget) {
+        if (defaultDragMotion === undefined) continue;
+        const current = readUserConfig({ userFile: target, defaultFile: '', petDir: '' });
+        if (!current || !Array.isArray(current.pets)) continue;
+        let missing = false;
+        const nextPets = current.pets.map((pet) => {
+          if (!pet || typeof pet !== 'object' || pet.id !== entry || pet.dragMotion !== undefined) return pet;
+          missing = true;
+          return { ...pet, dragMotion: defaultDragMotion };
+        });
+        // Preserve custom settings, including null/unknown dragMotion values, and unreadable configs.
+        if (!missing) continue;
+        updatedConfig = JSON.stringify({ ...current, pets: nextPets }, null, 2) + '\n';
+      } else {
+        if (!previousHash) continue;
+        const currentHash = hashFile(target);
+        const bundledHash = hashFile(original);
+        // Identical assets need no backup. An unknown hash is a user's custom animation.
+        if (currentHash === bundledHash || currentHash !== previousHash) continue;
+      }
+      const suffix = randomUUID();
+      const temporary = join(dirname(target), '.' + suffix + '.bundled-update.tmp');
+      const backup = join(dirname(target), '.' + basename(target) + '.bundled-backup-' + suffix);
+      copyFileSync(target, backup, constants.COPYFILE_EXCL);
+      backupFiles.push(backup);
+      temporaryFiles.push(temporary);
+      if (updatedConfig === undefined) copyFileSync(original, temporary, constants.COPYFILE_EXCL);
+      else writeFileSync(temporary, updatedConfig, { flag: 'wx', mode: lstatSync(target).mode });
+      // The config uses the same byte-preserving backup and transaction as the media.
+      renameSync(temporary, target);
+      changes.push({ target, backup });
     }
   } catch (error) {
-    for (const path of created.reverse()) unlinkSync(path);
+    const unrecovered = new Set<string>();
+    let rollbackFailed = false;
+    for (const change of changes.reverse()) {
+      try {
+        if (change.backup) renameSync(change.backup, change.target);
+        else unlinkSync(change.target);
+      } catch {
+        rollbackFailed = true;
+        if (change.backup) unrecovered.add(change.backup);
+      }
+    }
+    for (const path of [...temporaryFiles, ...backupFiles]) {
+      if (unrecovered.has(path) || !existsSync(path)) continue;
+      try {
+        unlinkSync(path);
+      } catch {
+        rollbackFailed = true;
+      }
+    }
+    if (rollbackFailed)
+      throw new Error('内置角色素材更新失败，部分旧素材已保留为备份，请恢复后重试。', { cause: error });
     throw error;
   }
 }

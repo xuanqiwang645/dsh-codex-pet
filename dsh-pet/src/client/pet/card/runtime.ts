@@ -249,7 +249,7 @@ export function createCardRuntime(rt: PetRuntime) {
     const flow = useAnimationFlow(hub, workStatus);
     liveRef.current.flow = flow;
 
-    const stageStyle = petStageStyle(dragging, bottomPad);
+    const stageStyle = petStageStyle(dragging && cfg.dragMotion?.mode !== 'stable', bottomPad);
     const rootStyle = petRootStyle(
       customPos,
       { width: window.innerWidth, height: window.innerHeight },

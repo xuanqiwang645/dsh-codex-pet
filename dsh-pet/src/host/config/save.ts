@@ -10,7 +10,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { CORNER_SET, isValidPetId, isWritablePetDisplay } from './constants.ts';
 import type { ConfigPaths } from './constants.ts';
-import { fontValid, modelSelectionValid, physicsValid, topFieldValid } from './validate.ts';
+import { dragMotionValid, fontValid, modelSelectionValid, physicsValid, topFieldValid } from './validate.ts';
 
 /**
  * 保存用户层（PUT /config）：接受 pets + 全局开关 + physics / font / 两个模型 / 对话参数。
@@ -53,6 +53,13 @@ export function saveUserConfig(
     // 传了必须是布尔，没传则走下面的读取侧默认值（内置默认 false = 不固定）。
     const fixedEnabled = pp.fixedEnabled;
     if (fixedEnabled !== undefined && typeof fixedEnabled !== 'boolean') return null;
+    const previous = Array.isArray(existing?.pets)
+      ? existing.pets.find((pet) => pet && typeof pet === 'object' && (pet as Record<string, unknown>).id === id)
+      : undefined;
+    // 旧设置页不认识此字段时也保留角色手感；显式修改必须通过同一份校验。
+    const dragMotion =
+      pp.dragMotion !== undefined ? pp.dragMotion : (previous as Record<string, unknown> | undefined)?.dragMotion;
+    if (dragMotion !== undefined && !dragMotionValid(dragMotion)) return null;
     const display = String(pp.display ?? '');
     if (!isWritablePetDisplay(display)) return null;
     const pos = pp.position && typeof pp.position === 'object' ? (pp.position as Record<string, unknown>) : {};
@@ -79,6 +86,7 @@ export function saveUserConfig(
       display,
       position: { corner, marginX, marginY },
     };
+    if (dragMotion !== undefined) pet.dragMotion = dragMotion;
     if (persona) pet.whisperPrompt = persona;
     out.push(pet);
   }

@@ -19,4 +19,12 @@ python3 build-app.py --source /路径/原仓库/dsh-pet --electron /路径/Elect
 
 ## 白龙娘动画素材
 
-新增角色素材在 `dsh-pet/assets/pet-packs/chatgpt-dragon/`，透明原图、连续动作帧表和生成提示词均保留。重建其视频时运行 `node scripts/build-character-media.mjs /路径/ffmpeg`；需要支持 libvpx-vp9 和透明 Alpha 的 FFmpeg。该脚本只提取已生成的帧并编码为 640×360 VP9-alpha 视频，不使用 API 或修改绘画内容。连续步态按 1 秒一周期循环，桌面实际位移仍由原有运动驱动负责。
+角色素材在 `dsh-pet/assets/pet-packs/chatgpt-dragon/`，透明原图、连续动作帧表和生成提示词均保留。0.4.4 的源图保留充分人物间距与边界留白；`scripts/character-layout.mjs` 根据实际 Alpha 像素识别完整人物区域，不再按等分格直接裁切。人物触边、区域切断可见部件、混入邻帧或出现未归属的显著部件时，构建会停止，要求复查区域或重新生成源图。
+
+在包目录中运行 `node scripts/build-character-media.mjs /路径/ffmpeg --layout-only` 可检查人物区域并输出 `source/frame-layout.json`；移除 `--layout-only` 后重建视频。需要支持 libvpx-vp9 和透明 Alpha 的 FFmpeg。各组连续帧统一缩放并对齐脚底，输出 640×360 VP9-alpha 视频，桌面位移由运动驱动负责。
+
+连续动作使用 `scripts/interpolate-character-rgba.py` 进行 48 fps 双向 DIS 光流补间，预乘 RGBA 的四个通道共享同一映射，并保留原始关键帧。脚本需要构建期 Python 及 `numpy`、`opencv-python-headless`，依赖范围见 `scripts/requirements-character-media.txt`；可用 `DSH_MEDIA_PYTHON=/路径/python` 指定解释器，缺省为 `python3`。这些 Python 库不随应用打包，安装后的桌宠只播放预先生成的视频。补间可能使细节轻微柔化。
+
+运行 `node scripts/verify-character-media.mjs /路径/ffmpeg` 验证编码成品。它核对源关键帧的 Alpha 轮廓、补间过渡、相邻帧碎片、透明边距及边界偏差，输出角色包内的 `media-validation.json`；失败时以非零状态退出。动作顺序和 48 fps 输出计划保存在 `source/media-timeline.json`，可与原图和区域记录一同复查。
+
+已安装素材的升级由角色包中的可信旧 SHA-256 清单限定：匹配旧内置动画的文件先备份再替换，未知哈希的动画按用户自定义保留；已有配置先备份，仅给缺少 `dragMotion` 的白龙娘实例补入默认值，其它字段和已有拖拽设置保留。稳定拖拽使用连续位置积分，保持朝向与抓取锚点，避免将取整后的窗口位置反馈到跟随计算；未启用该选项的鲸鱼娘继续使用原逻辑。
