@@ -13,8 +13,8 @@
   "assets": [
     {
       "name": "dsh-codex-companion-0.4.4-codex.1-macos-arm64.zip",
-      "sha256": "ec400a2542cf705e0771c5f3f79e208f0e61e4b8f63eb3af2f787d580d00921f",
-      "bytes": 318213094
+      "sha256": "8682b4c57ce9c04f923d62f37608c68b8c623ee936bb94ca2ca7abf6941df11e",
+      "bytes": 318213288
     },
     {
       "name": "dsh-native-pet-1.0.0.zip",

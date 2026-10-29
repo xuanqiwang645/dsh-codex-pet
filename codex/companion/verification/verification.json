@@ -63,9 +63,21 @@
     "customSettingsPreserved": true
   },
   "desktopInteractiveVerification": {
-    "status": "pending",
-    "reason": "interactive session unavailable",
-    "notClaimedAsPassed": true
+    "status": "reviewed-with-limitations",
+    "installedExecutableObserved": true,
+    "newDragDefaultMigrated": true,
+    "completeHeadAndFeetObserved": true,
+    "noNeighbourFrameFootFragmentObserved": true,
+    "realPointerGrabAndReleaseObserved": true,
+    "userCorrectionReportedNoOscillation": true,
+    "automatedDragTrajectory": "inconclusive: transparent moving native window could not be targeted reliably",
+    "userSettingsPreservedExceptSelectedCharacterAndNewDragDefault": {
+      "memory.json": true,
+      "codex-settings.json": true,
+      "main-config.jsonc": true,
+      "pet/chatgpt-dragon-config.jsonc": true
+    },
+    "characterSelectionLeftToUser": true
   },
   "payloadSha256": "99605ce37c06ab3d05901725a63b0ffd84489993d33b44e6341f1821736e7254",
   "privacy": {
